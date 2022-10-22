@@ -1,0 +1,304 @@
+.MCenter{
+	text-align: center;
+}
+
+body{
+    background: #e5ebec;
+    /*background-image: url("../images/bacground.png");*/
+}
+
+
+.accueil{
+    width: 100%;
+    /*height: 14px;*/
+    
+    text-align: center;
+}
+
+.div_connexion{
+    height :600px;
+    width: 100%;
+    background-image: url("../images/carrosels/bg-masthead.jpg");
+    
+}
+
+.text_connexion{
+    font-weight: bold;
+    font-size: calc(0.6rem + 2.5vw); 
+    color: white;
+}
+
+
+
+/******************* Accueil haut ****************************/
+
+.text_accueil{
+    position: absolute;
+    z-index: 1;
+    height : 100%;
+}
+
+.a_text_accueil{
+    margin-bottom: 10px;
+    padding: 0px;
+    padding-bottom: 0px;
+}
+.h1_accueil{
+    font-size: calc(0.2rem + 3.0vw); 
+    /*Adapte la taille de l'écriture en fonction de la taille de la finêtre
+      La première valeur est celle lorsqu'on utilise un petit écran et la deuième pour les grans écrans*/
+    margin-bottom: 0px;
+}
+
+
+.img_carousel{
+    border-radius: 6px;
+
+}
+
+.div_accuil{
+    /*height :490px; */
+    width: 100%;  
+    /*border: 5px solid red;  */
+}
+
+
+.div_carousel{
+    /*background-color: #e5ebec;*/
+ }
+
+/******************* Accueil haut ****************************/
+
+
+
+/******************* Accueil bas ****************************/
+.sectionChild{
+    /*background-color: #e5ebec; */
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.sectionAccueil{
+    /*background-color: #e5ebec; */
+    /*z-index: -3;*/
+}
+
+a{
+    text-decoration: none; color: inherit; 
+}
+.a_white:hover{
+    color: white; 
+    font-size: 3rem;
+}
+/***********************************************************/
+/*Annimation bouton*/
+.a_accueil{
+    transition: 0.8s;
+    position: relative;
+    overflow: hidden;
+    margin: 0px;
+    display: inline;
+    /*background: #e5ebec;*/
+}
+.a_accueil::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    z-index: -1;
+    transition: 0.8s;
+    background: #e5ebec;
+}
+
+.a1,.a2,.a3{
+    /*background: #e5ebec;*/
+}
+
+.a1::before{
+    background: #007bff; /*#ffc107  3em #28a745*/
+}
+
+.a2::before{
+    background: #ffc107; /*#ffc107  3em #28a745*/
+}
+
+.a3::before{
+    background: #28a745; /*#ffc107  3em #28a745*/
+}
+
+.a1:hover,.a2:hover,.a3:hover{
+    color: white;
+}
+
+.a1::before,.a3::before{
+     /* Pour changer de direction
+     top: 0;
+    border-radius:   0 0 50% 50%;*/
+    bottom: 0;
+    border-radius:  50% 50% 0 0;
+}
+.a2::before{
+     top: 0;
+    border-radius:   0 0 50% 50%;
+}
+
+.a1:hover::before,.a2:hover::before,.a3:hover::before{
+    height: 180%;
+}
+/******************* Accueil bas ****************************/
+
+
+
+/******************* Accueil Detailles NOTES ****************************/
+
+.faAbsent{
+    color: #198754;
+    font-size: calc(0.2rem + 2.0vw);;
+}
+
+
+.faPresent{
+    color: red;
+    font-size: calc(0.2rem + 2.0vw);;
+}
+
+
+.tableNote td, .tableNote tr{
+    font-size:  calc(0.2rem + 1.0vw); 
+}
+
+
+.div_inscript{
+    margin-top: 5%; 
+}
+
+.btnSuivRetour{
+    width: 100%;
+    margin-top: 15px;
+}
+
+
+input .unTest{
+    cursor: not-allowed;
+    color: red;
+}
+
+
+
+/******************* Accueil Detailles ****************************/
+
+
+
+
+/******************* formulaire etudiant ****************************/
+.form_etu_titre1{
+    border-radius: 10px;
+    background-color: #dee9ff;
+}
+.form_etu_titre2{
+    margin-top: 15px;
+    border-radius: 10px;
+    background-color: #dee9ff;
+}
+
+.borderTest{
+    border: 4px solid black;
+}
+.btnValide{
+    margin-top: 6px;
+}
+
+.con_admin{
+    font-size:  calc(0.2rem + 1.0vw); 
+}
+.config_element{
+    border: 5px solid #e5ebec;
+
+}
+
+.config_button{
+    width: 100%;
+    height: 100%;
+    font-size: calc(1.0rem + 0.5vw); 
+
+
+    /*padding: calc(var(--bs-gutter-x) * .2);*/
+}
+.confid_a{
+    padding: 3px;
+    height: 80px;
+}
+
+.conf_titl{
+    font-size: calc(0.6rem + 2.5vw); 
+}
+
+.conf_row_titl{
+    background-color: #56acdf6b;
+    border-radius: 10px;
+}
+
+
+
+
+
+/************ Edite tables ***************/
+.btnEditeTable{
+    font-size: calc(0.6rem + 1.0vw); 
+    color: green;
+}
+
+.btnSupTable{
+    font-size: calc(0.6rem + 1.0vw); 
+    color: red;
+}
+
+#ul_alert{
+    margin-bottom: 0px;
+}
+/******************* formulaire etudiant ****************************/
+
+.bgActive {
+    background-color: #47ce5696;
+}
+
+
+/*
+<script type="text/javascript">
+    $(document).ready(function(){
+  $('#birth-date').mask('00/00/0000');
+  // $('#numero').mask('0000000000');
+ })
+</script>*/
+
+
+
+
+
+
+
+
+
+
+/********************* @media screen *****************************/
+/* On screens that are 992px or less, set the background color to blue */
+@media screen and (max-width: 1900px) and (min-width: 900px) {
+  body {
+    /*background-color: blue;*/
+  }
+}
+
+/* On screens that are 600px or less, set the background color to olive */
+@media screen and (max-width: 900px) and (min-width: 600px) {
+  body {
+    /*background-color: red;*/
+  }
+}
+/* On screens that are 600px or less, set the background color to olive */
+@media screen and (max-width: 600px) {
+  body {
+    /*background-color: olive;*/
+      }
+  }
+/********************* @media screen *****************************/
