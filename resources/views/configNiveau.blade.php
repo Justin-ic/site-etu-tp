@@ -39,12 +39,16 @@
 @ endif -->
 
 @if(count($errors) > 0)
-<div class="alert alert-danger d-flex align-items-center">
-    <ul id="ul_alert">
-  @foreach ($errors->all() as $error)
-    <li>{{$error}}</li>
-  @endforeach
-    </ul>
+<div id="ul_alert_error">
+    <div class="alert alert-danger d-flex align-items-center">
+        <ul id="ul_alert">
+          @foreach ($errors->all() as $error)
+          <li>{{$error}}</li>
+          <script type="text/javascript">setTimeout(function() {
+          document.getElementById('ul_alert_error').innerHTML = "";},5000);</script>
+          @endforeach
+      </ul>
+  </div>
 </div>
 @endif
 <div id="ul_alert">
@@ -242,10 +246,10 @@ filieres = filieres+'}';
         $('#'+data.id).remove();
       }
       console.log('Reponse Jison ******************************');
-      console.log(jqXHR.responseJSON.ExistFiliere);
+      console.log(jqXHR.responseJSON.ExistNiveau);
 
-      console.log('ExistFiliere ******************************');
-      var errorMsg = jqXHR.responseJSON.ExistFiliere;
+      console.log('ExistNiveau ******************************');
+      var errorMsg = jqXHR.responseJSON.ExistNiveau;
       if (typeof errorMsg !== 'undefined') {
         // myVar is (not defined) OR (defined AND unitialized)
         var data= 'Pas de changement !';
@@ -330,6 +334,9 @@ function AfficheAlert(message){
         alertMsg = alertMsg+'</div>';
 
     document.getElementById('ul_alert').innerHTML = alertMsg;
+    setTimeout(function() {
+     document.getElementById('ul_alert').innerHTML = "";
+    },5000);
 }
 
 

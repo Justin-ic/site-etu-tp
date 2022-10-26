@@ -32,6 +32,12 @@ body{
 
 /******************* Accueil haut ****************************/
 
+.h1_alert{
+    padding: 5px;
+    border-radius: 5px;
+    font-size: calc(0.2rem + 2.0vw); 
+}
+
 .text_accueil{
     position: absolute;
     z-index: 1;
@@ -261,6 +267,24 @@ input .unTest{
 
 .bgActive {
     background-color: #47ce5696;
+}
+
+/*Croix du ménu*/
+.btn-close-red {
+    color: red;
+}
+
+
+.profil_header {
+    border-radius: 30px;
+    background-color: #56acdf6b;
+    padding: 10px;
+}
+
+
+.fa-grin-stars {
+    color: #ffa700;
+    font-size: calc(0.6rem + 2.5vw);
 }
 
 

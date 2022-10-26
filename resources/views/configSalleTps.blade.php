@@ -2,7 +2,7 @@
 
 @section('contenu')
 
-<!-- ****************************** GESTION DES ANNES *********************************** -->
+<!-- ****************************** GESTION DES FILIERES *********************************** -->
 <div class="row d-flex justify-content-center align-items-center">
     <div class="col-12 col-md-9">
 
@@ -11,14 +11,14 @@
     <div class="card-header py-3">
         <div class="row d-flex">
             <div class="col-sm-9 d-flex justify-content-start">
-                <h2 class="m-0 font-weight-bold text-primary">Définissez <b>l'Année Universitaire</b></h2>
+                <h2 class="m-0 font-weight-bold text-primary">Gestion des <b>Salles de TP</b></h2>
 
             </div>
             <div class="col-sm-3 d-flex justify-content-end ms-auto p-2">
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ajoutAnneeModal">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ajoutSalleModal">
                     <i class="fas fa-plus "></i>
-                    Ajouter année
+                    Ajouter TP
                 </button>
             </div>
         </div>
@@ -31,7 +31,7 @@
 @ if ($errors->any())
 <div class="alert alert-danger d-flex align-items-center">
     <ul id="ul_alert">
-    @ foreach ($errors->get('LibelleAnnee') as $error)
+    @ foreach ($errors->get('LibelleFiliere') as $error)
     <li>{$error}</li>
     @ endforeach
     </ul>
@@ -62,8 +62,7 @@
         <thead>
             <tr class="MCenter">
                 <th>N°</th>
-                <th>Libelle</th>
-                <th>Etat</th>
+                <th>Salle</th>
                 <th>Date Modif</th>
                 <!-- <th colspan="2">Action</th> -->
             </tr>
@@ -75,16 +74,14 @@
 guichet_personnel*/ 
  ?></pre> -->
         <tbody>
+            <?php $i=1; if ($Liste_Salle->count() > 0):  if (isset($_GET['page'])) {{ $i=$_GET['page']*5 - 4;}} ?>
+                <?php foreach ($Liste_Salle as $La_Liste_Salle): ?>
+            <tr  class="MCenter">
 
-            <?php $i=1; if ($Liste_annee->count() > 0):  if (isset($_GET['page'])) {{ $i=$_GET['page']*5 - 4;}} ?>
-                <?php foreach ($Liste_annee as $La_Liste_annee): /*dd($Le_guichet->service);*/ ?>
-            <tr  class="MCenter <?php if($La_Liste_annee->etat == "Active"){echo "bgActive";} ?>">
-
-                <td style="display: none;">{{$La_Liste_annee->id}}</td>
+                <td style="display: none;">{{$La_Liste_Salle->id}}</td>
                 <td><?=$i++ ?></td>
-                <td>{{$La_Liste_annee->LibelleAnnee}}</td>
-                <td>{{$La_Liste_annee->etat}}</td>
-                <td>{{$La_Liste_annee->updated_at->format('d/m/Y')}}</td>
+                <td>{{$La_Liste_Salle->LibelleSalle}}</td>
+                <td>{{$La_Liste_Salle->updated_at->format('d/m/Y')}}</td>
 
             </tr> 
                 <?php endforeach ?> 
@@ -92,11 +89,10 @@ guichet_personnel*/
         </tbody>
         
         <tfoot  class="MCenter">
-        	<th>N°</th>
-                <th>Libelle</th>
-                <th>Etat</th>
+            <th>N°</th>
+                <th>Salle</th>
                 <th>Date Modif</th>
-        	<!-- <th colspan="2">Action</th> -->
+            <!-- <th colspan="2">Action</th> -->
         </tfoot>
     </table>
 </div>
@@ -104,7 +100,7 @@ guichet_personnel*/
     <div class="row">
         <div class="col-9 ">
             <div class="paginate float-end">
-                {{ $Liste_annee->links() }}   
+                {{ $Liste_Salle->links() }}   
             </div>
         </div>
     </div>
@@ -120,39 +116,29 @@ guichet_personnel*/
 </div>
 
 
-<!-- ****************************** GESTION DES ANNES *********************************** -->
+<!-- ****************************** GESTION DES FILIERES *********************************** -->
 
 
 
 
 
 
-<!-- Modal ANnnée-->
-<div class="modal fade" id="ajoutAnneeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal Filiere-->
+<div class="modal fade" id="ajoutSalleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
 
-    <form action="{{route('annee_univs.store')}}" method="POST">
+    <form action="{{route('configSalleTps.store')}}" method="POST">
             @csrf
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Ajoutez une année universitaire</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Ajoutez une Salle de TP</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         
         <div class="form-group">
-            <b>Année universitaire:</b>
-            <input type="text" name="LibelleAnnee"  class="form-control" required id="" placeholder="Ex: 2022-2023">
-        </div>
-
-        <div class="form-group">
-            <b>Etat:</b>
-            <select class="form-control" required name="etat" id="modale_etat_anne">
-                <!-- <option value="" >--Choisir--</option> -->
-                <option value="Inactive">Inactive</option>
-                <option value="Active">Active</option>
-                < ?php endforeach ?>
-            </select>
+            <b>Nom de la salle de TP:</b>
+            <input type="text" name="Libelle_Salle"  class="form-control" required id="" placeholder="TP 1">
         </div>
 
 
@@ -189,7 +175,7 @@ guichet_personnel*/
 $(document).ready(function(){
    
    /*********************** Controle de saisie*************/
-  // $('#LibelleAnnee').mask('00/00/0000');
+  // $('#LibelleFiliere').mask('00/00/0000');
   // $('#numero').mask('0000000000'); Pour ne accepter que des nombres
 /*********************** Controle de saisie*************/
 
@@ -200,12 +186,12 @@ $(document).ready(function(){
   });
 
   $('#editable').Tabledit({
-    url:'{{ route("tabledit_anne") }}',
+    url:'{{ route("tabledit_Salle") }}',
     dataType:"json",
     columns:{
         /*On donne la colonne des id comme identifiant et le numéro de chaque colonne à modifiée*/
       identifier:[0, 'id'], /*0 est le premier élément du tableau. les id mais en display none. 1 est N°*/
-      editable:[[2, 'LibelleAnnee'], [3, 'etat', '{"1":"Inactive", "2":"Active"}']]
+      editable:[[2, 'Libelle_Salle']]
     },
     restoreButton:false,
     onSuccess:function(data, textStatus, jqXHR)
@@ -216,10 +202,10 @@ $(document).ready(function(){
         $('#'+data.id).remove();
       }
       console.log('Reponse Jison ******************************');
-      console.log(jqXHR.responseJSON.ExistAnee);
+      console.log(jqXHR.responseJSON.ExistSalle);
 
-      console.log('ExistAnee ******************************');
-      var errorMsg = jqXHR.responseJSON.ExistAnee;
+      console.log('ExistSalle ******************************');
+      var errorMsg = jqXHR.responseJSON.ExistSalle;
       if (typeof errorMsg !== 'undefined') {
         // myVar is (not defined) OR (defined AND unitialized)
         var data= 'Pas de changement !';
@@ -243,7 +229,7 @@ $(document).ready(function(){
     
         
     
-console.log();
+        console.log();
         if(data != ''){
 
             AfficheAlert(data);
@@ -289,8 +275,8 @@ AfficheButton();
     console.log(ListeTD[ListeTD.length-1]);
 
     var ListeTH = document.getElementsByTagName('th');
-    ListeTH[4].innerHTML="<b>Action</b>";
-    console.log(ListeTH[4]);
+    ListeTH[3].innerHTML="<b>Action</b>";
+    console.log(ListeTH[3]);
     }
 
 
@@ -304,6 +290,7 @@ function AfficheAlert(message){
         alertMsg = alertMsg+'</div>';
 
     document.getElementById('ul_alert').innerHTML = alertMsg;
+
     setTimeout(function() {
      document.getElementById('ul_alert').innerHTML = "";
     },5000);

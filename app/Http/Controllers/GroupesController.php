@@ -3,6 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB; // pour utiliser les requêtes personnalisées
+use Illuminate\Support\Facades\Http; // pour utiliser les requêtes personnalisées API Laravel http::get()
+use App\Models\Groupe;
+use App\Models\Salle;
+use App\Models\Niveau;
+use App\Models\Tp;
 
 class GroupesController extends Controller
 {
@@ -13,8 +19,74 @@ class GroupesController extends Controller
      */
     public function index()
     {
-        //
+        $Liste_groupe = Groupe::with('salle')->orderBy('numeroG','ASC')->Paginate(5);
+        $Liste_Salle = Salle::latest()->get();
+        $Liste_Niveau = Niveau::with('filiere')->get();
+        $Liste_TP = Tp::latest()->get();
+
+/*        foreach ($Liste_nivaux as $liste) {
+            dd($liste->LibelleGroupe);
+            // dd($liste->filiere->LibelleFiliere);
+        }*/
+        
+        return view('configGroupes',compact('Liste_groupe','Liste_Salle','Liste_Niveau','Liste_TP'));
     }
+
+
+
+
+
+
+
+    public function action(Request $request)
+    {
+                 
+        if($request->ajax())
+        {
+            if($request->action == 'edit')
+            {
+                 request()->validate([
+                    // 'LibelleGroupe' => ['required','string','max:30'], 
+                    'SalleId' => 'required'
+                 ]);
+
+
+                // dd($request->id);
+
+                // $existe = Groupe::where('LibelleG','=',$request->LibelleGroupe)->first();
+                                  // ->where('Salles_id','=',$request->SalleId)->first();
+/*                if ($existe != NULL) {
+                    if ($request->id != $existe->id) {
+                        $ExistGroupe = ["ExistGroupe" =>"Ce groupe est déjà dans une salle !"];
+                        return response()->json($ExistGroupe);
+                    }
+                } */
+
+                $data = array(
+                    // 'LibelleG'    =>  $request->LibelleGroupe,
+                    'Salles_id'    =>  $request->SalleId
+                );
+                Groupe::where('id', $request->id)->update($data);    
+
+            } /* Fin if edite*/
+
+            if($request->action == 'delete')
+            {
+            // dd($request->id);
+                
+                Groupe::where('id', $request->id)->delete();
+            }
+
+            return response()->json($request);
+        }/*Fin ajax*/
+    }/*public function*/
+
+
+
+
+
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -34,7 +106,27 @@ class GroupesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+         request()->validate([
+            'LibelleGroupe' => ['required','string','max:30'], 
+            'SalleId' => 'required'
+         ]);
+
+
+         $existe = Groupe::where('LibelleG','=',$request->LibelleGroupe)->first();
+                           // ->where('Salles_id','=',$request->SalleId)->first();
+         if ($existe != NULL) {
+            if ($request->id != $existe->id) {
+                return back()->withErrors(["ExistGroupe" =>"Ce groupe est déjà dans une salle !"]);
+            }
+        }else {
+         Groupe::create([
+            'LibelleG' => $request->LibelleGroupe,
+            'Salles_id' => $request->SalleId
+        ]);
+         $message = "Créer avec succsès!";
+        return redirect()->route('configGroupe.index')->with('message');
+        } /*fin annee n'existe pas*/
     }
 
     /**

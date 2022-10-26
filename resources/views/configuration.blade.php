@@ -24,7 +24,6 @@
             </button>
         </a>
 
-
         <a href="{{route('filieres.index')}}" type="" class="col-md-3 col-12  confid_a">
             <button href="" class="btn btn-warning  btn btn-warning config_button">
                 Ajouter un filière
@@ -46,14 +45,14 @@
        </a>
 
 
-       <a href="aaaaaaaa" type="" class="col-md-3 col-12  confid_a">
+       <a href="{{route('configSalleTps.index')}}" type="" class="col-md-3 col-12  confid_a">
         <button href="" class="btn btn-warning  btn btn-warning config_button">
             Ajouter une salle de TP
         </button>
     </a>
     
 
-    <a href="aaaaaaaa" type="" class="col-md-3 col-12  confid_a">
+    <a href="{{route('configGroupe.index')}}" type="" class="col-md-3 col-12  confid_a">
         <button href="" class="btn btn-warning  btn btn-warning config_button">
             Configurer les groupes
         </button>
@@ -66,6 +65,81 @@
         </button>
     </a>
     
+
+
+
+
+<br><br><br><br><br><br><br><br><br>
+
+
+<!-- ****************************** Mini bilan *********************************** -->
+<div class="col-12  ">
+    <div class="row d-flex justify-content-center mt-4 borderTest">
+        <div class="col-10 ">
+
+
+            <div class="card shadow mb-4 TableCard">
+                <div class="card-header py-3">
+                    <div class="row d-flex">
+                        <div class="col-sm-9 d-flex justify-content-start">
+                            <h2 class="m-0 font-weight-bold text-primary">Etat de la configuration</h2>
+                        </div>
+                        <div class="col-sm-3 d-flex justify-content-end ms-auto p-2">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#FiltreGroupeModal">
+                                <i class="fas fa-search-plus "></i>
+                                Filtrer
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    Vous avez au total 10 étudiants inscrit dont:
+                    TP: Langage C nb ETu, nb Groupe
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped" id="editable">
+                            <thead>
+                                <tr class="MCenter">
+                                    <th>N°</th>
+                                    <th>Libelle groupe</th>
+                                    <th>Salle</th>
+                                    <th>Date Modif</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="Tbody">
+                                <tr  class="MCenter">
+                                 <td>Groupe pas défini</td>
+                                 <td>Groupe pas défini</td>
+                                 <td>Groupe pas défini</td>
+                                 <td>Groupe pas défini</td>
+                             </tr> 
+                         </tbody>
+
+                         <tfoot  class="MCenter">
+                            <th>N°</th>
+                            <th>Libelle groupe</th>
+                            <th>Salle</th>
+                            <th>Date Modif</th>
+                        </tfoot>
+                    </table>
+                </div>
+
+            </div><!-- fin card-body-->
+        </div><!-- fin  card shadow mb-4 TableCard-->
+    </div> <!-- fin col-10 d-flex -->
+</div>
+</div><!-- fin div col-12 col-md-12 -->
+<!-- ****************************** Mini bilan *********************************** -->
+
+
+
+
+
+
+
+
+
   </div><!-- Fin row  -->
 </div>
 

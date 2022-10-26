@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB; // pour utiliser les requêtes personnalisées
+use Illuminate\Support\Facades\Http; // pour utiliser les requêtes personnalisées API Laravel http::get()
+use App\Models\Tp;
+
 
 class TPsController extends Controller
 {
@@ -13,8 +17,62 @@ class TPsController extends Controller
      */
     public function index()
     {
-        //
+      $Liste_Tp = Tp::latest()->Paginate(5);
+      return view('configTps',compact('Liste_Tp'));
     }
+
+
+
+
+
+
+
+    public function action(Request $request)
+    {
+                 
+        if($request->ajax())
+        {
+            if($request->action == 'edit')
+            {
+                 request()->validate([
+                // 'LibelleFiliere' => ['required','stringmax:9'], oublien
+                    'LibelleTP' => 'required|string|max:30'
+                ]);
+
+
+                // dd($request->etat);
+
+                $existe = Tp::where('LibelleTp','=',$request->LibelleTP)->first();
+                if ($existe != NULL) {
+                    if ($request->id != $existe->id) {
+                        $ExistTp = ["ExistTp" =>"Ce nom de TP existe déjà !"];
+                        return response()->json($ExistTp);
+                    }
+                } 
+
+                $data = array(
+                    'LibelleTp'    =>  $request->LibelleTP
+                );
+                Tp::where('id', $request->id)->update($data);    
+
+            } /* Fin if edite*/
+
+            if($request->action == 'delete')
+            {
+            // dd($request->id);
+                
+                Tp::where('id', $request->id)->delete();
+            }
+
+            return response()->json($request);
+        }/*Fin ajax*/
+    }/*public function*/
+
+
+
+
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -34,7 +92,23 @@ class TPsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+         request()->validate([
+            // 'LibelleFiliere' => ['required','string|max:9'], oublien
+            'LibelleTP' => 'required|string|max:30'
+        ]);
+
+        $existe = Tp::where('LibelleTp','=',$request->LibelleTP)->first();
+        if ($existe != NULL) {
+            return back()->withErrors(["ExistTp" =>"Ce nom de TP existe déjà !"]);
+        } else {
+         Tp::create([
+            'LibelleTp' => $request->LibelleTP
+        ]);
+         $message = "Créer avec succsès!";
+        return redirect()->route('Tps.index')->with('message');
+        } /*fin annee n'existe pas*/
+
     }
 
     /**

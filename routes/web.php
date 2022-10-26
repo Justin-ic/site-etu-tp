@@ -8,6 +8,8 @@ use App\Http\Controllers\AnneeUnivsController;
 use App\Http\Controllers\FilieresController;
 use App\Http\Controllers\NiveausController;
 use App\Http\Controllers\TPsController;
+use App\Http\Controllers\SallesController;
+use App\Http\Controllers\GroupesController;
 // use PDF;
 /*
 |--------------------------------------------------------------------------
@@ -21,16 +23,37 @@ use App\Http\Controllers\TPsController;
 */
 
 Route::get('/', function () {
+    if (!isset($_SESSION)) { session_start(); }
+    session_destroy();
     return view('connexion');
-});
+})->name('connexion');
 
 Route::get('admin', function () {
     // S'il y a deja un admin, on passe directement à l'accueil
+     if (!isset($_SESSION)) { session_start(); }
+    session_destroy();
+    // if (isset($_SESSION)) { dd('Session existe je detruit'); session_destroy(); }
     return view('connec_admin');
 })->name('admin');
 
 Route::get('accueil', function () {
-    return view('accueil');
+    if (!isset($_SESSION)) { session_start(); }
+
+    if (isset($_SESSION['Admin']) || isset($_SESSION['Etudiant'])) {
+        return view('accueil'); 
+    }else{
+        $message = "Connectez-vous d'abord s'il vous plait !";
+        return view('note_found', compact('message'));
+    }
+/*
+    if (isset($_SESSION['Admin'])) {
+        return view('accueil'); 
+    } else if(isset($_SESSION['Etudiant'])){
+        return view('accueil');
+    }else{
+        $message = "Connectez-vous d'abord s'il vous plait !";
+        return view('note_found', compact('message'));
+    }*/
 })->name('accueil');
 
 
@@ -48,6 +71,8 @@ Route::post('config/tabledit_anne', [AnneeUnivsController::class,'action'])->nam
 Route::post('config/tabledit_filiere', [FilieresController::class,'action'])->name('tabledit_filiere'); 
 Route::post('config/tabledit_niveau', [NiveausController::class,'action'])->name('tabledit_niveau'); 
 Route::post('config/tabledit_Tps', [TPsController::class,'action'])->name('tabledit_Tp'); 
+Route::post('config/tabledit_Salle', [SallesController::class,'action'])->name('tabledit_Salle'); 
+Route::post('config/tabledit_Groupe', [GroupesController::class,'action'])->name('tabledit_Groupe'); 
 
 
 /***********************Gestion des tableaux éditables*****************************/
@@ -103,3 +128,39 @@ Route::resource('Tps', TPsController::class);
 
 // Route::post('niveaux/update/{id}', [FilieresController::class,'update'])->name('update_filieres'); 
 // Route::get('niveaux/destroy/{id}', [FilieresController::class,'destroy'])->name('destroy_filieres'); 
+
+
+
+
+Route::resource('configSalleTps', SallesController::class); 
+
+// Route::post('niveaux/update/{id}', [FilieresController::class,'update'])->name('update_filieres'); 
+// Route::get('niveaux/destroy/{id}', [FilieresController::class,'destroy'])->name('destroy_filieres'); 
+
+
+
+
+
+
+Route::resource('configGroupe', GroupesController::class); 
+
+Route::post('configGr', [AdminController::class,'configGroupes'])->name('configGr'); 
+Route::get('configFiltreG/{idNiveau}/{idTP}', [AdminController::class,'configFiltreG'])->name('configFiltreG'); 
+// Route::post('niveaux/update/{id}', [FilieresController::class,'update'])->name('update_filieres'); 
+// Route::get('niveaux/destroy/{id}', [FilieresController::class,'destroy'])->name('destroy_filieres'); 
+
+
+
+
+
+
+// Route::resource('configGroupe/{idNiveau}/{idTP}', GroupesController::class); 
+
+// Route::post('niveaux/update/{id}', [FilieresController::class,'update'])->name('update_filieres'); 
+// Route::get('niveaux/destroy/{id}', [FilieresController::class,'destroy'])->name('destroy_filieres'); 
+
+
+
+
+// user=Justin-ic
+// Le Mot de passe pour fair un push: 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

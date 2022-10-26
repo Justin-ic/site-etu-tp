@@ -39,12 +39,16 @@
 @ endif -->
 
 @if(count($errors) > 0)
-<div class="alert alert-danger d-flex align-items-center">
-    <ul id="ul_alert">
-  @foreach ($errors->all() as $error)
-    <li>{{$error}}</li>
-  @endforeach
-    </ul>
+<div id="ul_alert_error">
+    <div class="alert alert-danger d-flex align-items-center">
+        <ul id="ul_alert">
+          @foreach ($errors->all() as $error)
+          <li>{{$error}}</li>
+          <script type="text/javascript">setTimeout(function() {
+          document.getElementById('ul_alert_error').innerHTML = "";},5000);</script>
+          @endforeach
+      </ul>
+  </div>
 </div>
 @endif
 <div id="ul_alert">
@@ -286,6 +290,9 @@ function AfficheAlert(message){
         alertMsg = alertMsg+'</div>';
 
     document.getElementById('ul_alert').innerHTML = alertMsg;
+    setTimeout(function() {
+     document.getElementById('ul_alert').innerHTML = "";
+    },5000);
 }
 
 

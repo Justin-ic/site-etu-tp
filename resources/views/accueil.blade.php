@@ -2,15 +2,30 @@
 
 @section('contenu')
 
+<?php if (!isset($_SESSION)) { session_start(); } ?>
 
 <div id="carouselExampleSlidesOnly" class="carousel slide div_carousel " data-bs-ride="carousel" >	
-  <div class=" col-12 d-flex justify-content-center align-items-end text_accueil ">
-     <a href="{{route('inscrits.create')}}" class="btn btn-primary d-grid gap-2 col-3 col-md-8 a_text_accueil">
+<div class="row  col-12 d-flex justify-content-center align-items-end text_accueil">
+      <div id="ul_alert_error" class=" col-12 col-md-8 d-flex justify-content-center align-items-end">
+         <?php if (isset($_SESSION['inscritOk']) && $_SESSION['inscritOk'] != ''): ?>
+       <div class="MCenter h1_alert bg-info">
+         <?=$_SESSION['inscritOk']?>
+         <script type="text/javascript">setTimeout(function() {
+          document.getElementById('ul_alert_error').innerHTML = "";},5000);</script>
+       </div>
+       <?php unset($_SESSION['inscritOk']);endif ?>
+    <!-- <button  id="download" class="btn btn-primary"> PDF</button> -->
+  </div>
+
+
+
+  <div class=" col-12 d-flex justify-content-center align-items-end">
+     <a href="{{route('inscrits.create')}}" class="btn btn-primary d-grid gap-2 col-12 col-md-8 a_text_accueil">
        <h1 class="MCenter h1_accueil">Je m'inscris!</h1>
      </a>
-<!-- <button  id="download" class="btn btn-primary"> PDF</button> -->
-
+    <!-- <button  id="download" class="btn btn-primary"> PDF</button> -->
   </div>
+</div>
  
   <div class="carousel-inner div_accuil" >
     <div class="carousel-item active ">

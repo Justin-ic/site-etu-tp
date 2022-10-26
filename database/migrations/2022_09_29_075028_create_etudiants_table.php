@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('Prenom',100);
             $table->string('NCE',50);
             $table->date('DateNaissance');
+            $table->string('email',50);
+            $table->string('password',50);
             $table->timestamps();
         });
     }

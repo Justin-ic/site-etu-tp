@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('groupes', function (Blueprint $table) {
             $table->id();
-            $table->string('LibelleG',50);
-            $table->unsignedBigInteger('Salles_id'); // pour une salle donnée, on a plusieurs groupe qui s'échange matin et soir
+            $table->integer('numeroG');
+            $table->unsignedBigInteger('Salles_id')->nullable(); // pour une salle donnée, on a plusieurs groupe qui s'échange matin et soir
             // $table->unsignedBigInteger('tps_id'); // pour un TP donnée, on a plusieurs groupe qui s'échange matin et soir
 
             // définition des relations

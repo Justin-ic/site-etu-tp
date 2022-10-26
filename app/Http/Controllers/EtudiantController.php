@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\DB; // pour utiliser les requêtes personnalisées
 use Illuminate\Support\Facades\Http; // pour utiliser les requêtes personnalisées API Laravel http::get()
-use App\Models\etudiant;
+use App\Models\Etudiant;
 use PDF;
 
 class EtudiantController extends Controller
@@ -56,8 +56,36 @@ class EtudiantController extends Controller
      */
     public function store(Request $request)
     {
-        return redirect()->route('accueil');
+        request()->validate([
+            'nom' => ['required','string','max:30'], 
+            'prenom' => ['required','string','max:30'], 
+            'nce' => ['required','string','max:30','unique:etudiants'], 
+            'dateNaissance' => ['required','date'], 
+            'email' => ['required','email','unique:etudiants'], 
+            'password' => ['required'], 
+            'passConfirme' => ['required','same:password']
+        ]);
+        // ,'password:mixed'
+
+
+            Etudiant::create([
+                'Nom' => $request->nom,
+                'Prenom' => $request->prenom,
+                'NCE' => $request->nce,
+                'DateNaissance' => $request->dateNaissance,
+                'email' => $request->email,
+                'password' => $request->password
+            ]);
+            $message = "Créer avec succsès!";
+                $etudiantConnect = Etudiant::latest('id')->first();
+                // dd($etudiantConnect->id);
+                session_start();
+                $_SESSION['Etudiant'] = $etudiantConnect;
+            return redirect()->route('accueil')->with('message');
     }
+
+
+
 
     /**
      * Display the specified resource.
@@ -90,6 +118,16 @@ class EtudiantController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $client = Etudiant::find($request->id);
+        $client->update([
+            'Nom' => $request->nom,
+            'Prenom' => $request->prenom,
+            'NCE' => $request->genre,
+            'DateNaissance' => $request->numero,
+            'email' => $request->nce,
+            'password' => $request->nce
+        ]);
+        $message = "Modifier avec succsès!";
         return redirect()->route('accueil');
     }
 
@@ -101,7 +139,8 @@ class EtudiantController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $client = Etudiant::find($id)->delete();
+        return redirect()->route('accueil')->with('message');
     }
 
     
@@ -113,6 +152,21 @@ class EtudiantController extends Controller
      */
     public function loginEtu(Request $request)
     {
-        return redirect()->route('accueil');
+        request()->validate([
+            'email' => ['required','email'], 
+            'pass' => ['required']
+        ]);
+        $etudiantConnect = Etudiant::where('email','=',$request->email)
+                                    ->where('password','=',$request->pass)->get();
+                                // dd($etudiantConnect->count());    
+        if ($etudiantConnect->count() > 0) {
+            session_start();
+            $_SESSION['Etudiant'] = $etudiantConnect;
+
+             return redirect()->route('accueil');
+        } else {
+            return back()->withErrors(["Erreur_Connect" =>"Nom d'utilisateur ou mot de passe incorect !"]);
+        }
+        
     }
 }

@@ -56,8 +56,8 @@ class NiveausController extends Controller
                                   ->where('Filieres_id','=',$request->FiliereId)->first();
                 if ($existe != NULL) {
                     if ($request->id != $existe->id) {
-                        $ExistFiliere = ["ExistFiliere" =>"Cette filière existe déjà !"];
-                        return response()->json($ExistFiliere);
+                        $ExistNiveau = ["ExistNiveau" =>"Cette filière existe déjà !"];
+                        return response()->json($ExistNiveau);
                     }
                 } 
 
@@ -116,7 +116,7 @@ class NiveausController extends Controller
                            ->where('Filieres_id','=',$request->FiliereId)->first();
          if ($existe != NULL) {
             if ($request->id != $existe->id) {
-                return back()->withErrors(["ExistFiliere" =>"Cette filière existe déjà !"]);
+                return back()->withErrors(["ExistNiveau" =>"Cette filière existe déjà !"]);
             }
         }else {
          Niveau::create([

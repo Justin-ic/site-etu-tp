@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Groupe extends Model
 {
     use HasFactory;
-    protected $fillable = ['LibelleG', 'Salles_id'];
+
+    public function salle() {
+        return $this->belongsTo(Salle::class,'Salles_id'); // Relation One to Many: niveau est le fils
+    } 
+
+    protected $fillable = ['numeroG', 'Salles_id'];
     
 }
