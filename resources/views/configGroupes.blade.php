@@ -12,7 +12,7 @@
 
 
 <!-- ****************************** REPARTITION DES GROUPES *********************************** -->
-<div class="card shadow mb-4 TableCard">
+<div class="card shadow mb-4 mt-4 TableCard">
     <div class="card-header py-3">
         <div class="row d-flex">
             <div class="col-sm-9 d-flex justify-content-start">
@@ -82,7 +82,7 @@ Les groupes sont créer automatiquement dans la première étape.
 <div class="table-responsive">
     @csrf
     <h1 class="MCenter"></h1>
-    <table class="table table-bordered table-striped" id="editable">
+    <table class="table table-bordered table-striped tableGroupe" id="editable">
         <thead>
             <tr class="MCenter">
                 <th>N°</th>
@@ -160,35 +160,32 @@ guichet_personnel */
         </div>
     </div>
     <div class="card-body">
-    Vous avez au total 10 étudiants inscrit dont:
- TP: Langage C nb ETu, nb Groupe
+<b><u>Effectuer un filtre:</u></b> Afficher le nombre  d'étudiant inscrit dans un TP en fonction du niveau.
 
 <div class="table-responsive">
     <table class="table table-bordered table-striped" id="editable">
         <thead>
             <tr class="MCenter">
-                <th>N°</th>
-                <th>Libelle groupe</th>
-                <th>Salle</th>
-                <th>Date Modif</th>
+                <th>Année en cours</th>
+                <th>Niveau</th>
+                <th>TP</th>
+                <th>Nombre Etudiant</th>
+                <th>Nombre Groupe</th>
+                <th>Nb/Groupe</th>
             </tr>
         </thead>
 
         <tbody id="Tbody">
             <tr  class="MCenter">
-               <td>Groupe pas défini</td>
-               <td>Groupe pas défini</td>
-               <td>Groupe pas défini</td>
-               <td>Groupe pas défini</td>
+               <td></td>
+               <td></td>
+               <td></td>
+               <td></td>
+               <td></td>
+               <td></td>
             </tr> 
         </tbody>
         
-        <tfoot  class="MCenter">
-            <th>N°</th>
-            <th>Libelle groupe</th>
-            <th>Salle</th>
-            <th>Date Modif</th>
-        </tfoot>
     </table>
 </div>
 
@@ -461,7 +458,7 @@ Salles = Salles+'}';
         $('#'+data.id).remove();
       }
       console.log('Reponse Jison ******************************');
-      console.log(jqXHR.responseJSON.ExistGroupe);
+      // console.log(jqXHR.responseJSON.ExistGroupe);
 
       console.log('ExistGroupe ******************************');
       var errorMsg = jqXHR.responseJSON.ExistGroupe;
@@ -488,12 +485,11 @@ Salles = Salles+'}';
     
         
     
-        console.log();
         if(data != ''){
 
             AfficheAlert(data);
         }
-        console.log(data);
+        // console.log(data);
         // console.log(textStatus);
         // console.log(errorThrown);
     }
@@ -529,13 +525,18 @@ AfficheButton();
     console.log(spanButonSupTest);*/
 
 
-    var ListeTD = document.getElementsByTagName('td');
+/*    var ListeTD = document.getElementsByTagName('td');*/
+    var  LeTableGroupe = document.getElementsByClassName('tableGroupe');
+    var  ListeTD = LeTableGroupe[0].getElementsByTagName('td');
     ListeTD[ListeTD.length-1].innerHTML="<b>Action</b>"
     console.log(ListeTD[ListeTD.length-1]);
 
-    var ListeTH = document.getElementsByTagName('th');
+
+    // var ListeTH = document.getElementsByTagName('th');
+    var ListeTH = LeTableGroupe[0].getElementsByTagName('th');
     ListeTH[4].innerHTML="<b>Action</b>";
     console.log(ListeTH[4]);
+
     }
 
 
@@ -571,35 +572,27 @@ function AfficheAlert(message){
 // !!!!!!!!!!!!!!!!!!!    REMPLISSAGE DU TABLEAU   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 function AfficherTableau(Donnees){
- // <!-- clientId clientNumero clientTicket nbClientAvant tAttenteEstime nom prenom genre clientLatitude clientLongitude -->
-// alert('Je suis la');
+         // anneeUniv niveau tp nbEtudiant nbGroupe nbParGroupe
+
 console.log('Je commence');
-console.log(Donnees);
+// console.log(Donnees);
 var TrTd ='';
-    for (var i = 0; i < Donnees.length; i++) {
-        console.log(Donnees[i]);
-        infoLigne = Donnees[i];
+
 
 TrTd +='      <tr  class="MCenter"  id="tr">';
-TrTd +='                <td>' +(i+1)+ '</td>';
-TrTd +='                <td>' +infoLigne[0]+ '</td>';
-TrTd +='                <td>' +infoLigne[1]+ '</td>';
-TrTd +='                <td>' +infoLigne[2]+ '</td>';
-TrTd +='                <td>' +infoLigne[5]+ '</td>';
-TrTd +='                <td>' +infoLigne[6]+ '</td>';
-TrTd +='                <td>' +infoLigne[7]+ '</td>';
-TrTd +='                <td>' +infoLigne[8]+ '</td>';
-TrTd +='                <td>' +infoLigne[9]+ '</td>';
-TrTd +='                <td>' +infoLigne[10]+ '</td>';
-// TrTd +='                 <td> <a href="https://una-scolarite.herokuapp.com/debug/destroy/'+infoLigne[11]+'"><button class="btn btn-danger modif_sup">Sup <span class="fas fa-times-circle"></span></button></a> </td>';
+TrTd +='                <td>' +Donnees.anneeUniv+ '</td>';
+TrTd +='                <td>' +Donnees.niveau+ '</td>';
+TrTd +='                <td>' +Donnees.tp+ '</td>';
+TrTd +='                <td>' +Donnees.nbEtudiant+ '</td>';
+TrTd +='                <td>' +Donnees.nbGroupe+ '</td>';
+TrTd +='                <td>' +Donnees.nbParGroupe+ '</td>';
 TrTd +='       </tr>';
 TrTd +='';
 TrTd +='';
 
-    } // Fin For
-    console.log(TrTd);
+    // console.log(TrTd);
 document.getElementById('Tbody').innerHTML = TrTd;
-}
+}/*fin function*/
 // !!!!!!!!!!!!!!!!!!!    REMPLISSAGE DU TABLEAU   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
@@ -615,7 +608,7 @@ function AfficheBilan(){
 // modale_Tp
         var idNiveau = document.getElementById('modale_Niveau').value;
         var idTP = document.getElementById('modale_Tp').value;
-        console.log(idTP);
+        // console.log(idTP);
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -623,9 +616,10 @@ function AfficheBilan(){
            var myArr = JSON.parse(this.responseText);  //Je transforme la réponse en array()
            var i=0;
            var DonneesBD = myArr;
-           console.log(DonneesBD);
+           // console.log(DonneesBD);
            // viderTableau();
-           // AfficherTableau(DonneesBD); // Comme j'ai les données, je peut afficher le tableau
+         // anneeUniv niveau tp nbEtudiant nbGroupe nbParGroupe
+           AfficherTableau(DonneesBD); // Comme j'ai les données, je peut afficher le tableau
            }
         };
 

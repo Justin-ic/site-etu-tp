@@ -288,6 +288,16 @@ input .unTest{
 }
 
 
+th, td{
+    font-size: calc(0.4rem + 1vw);
+}
+
+
+
+.xxxxxx{
+    color: #ffc107;
+}
+
 /*
 <script type="text/javascript">
     $(document).ready(function(){

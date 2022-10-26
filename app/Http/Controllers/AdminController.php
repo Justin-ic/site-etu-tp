@@ -8,6 +8,8 @@ use App\Models\admin;
 use App\Models\Inscrit;
 use App\Models\Etudiant;
 use App\Models\Groupe;
+use App\Models\Niveau;
+use App\Models\Tp;
 
 class AdminController extends Controller
 {
@@ -273,21 +275,48 @@ foreach ($LiesteEtuInscrit as  $inscrit) {
             return view('note_found', compact('message'));
         }
         $anneActive = AnneeUniv::where('etat','=','Active')->first();
+        $Le_niveau = Niveau::with('filiere')->find($idNiveau);
+        $Le_TP = Tp::find($idTP);
         $LiesteEtuInscrit = Inscrit::with('etudiant')
                     ->where('AnneeUnivs_id','=',$anneActive->id)
                     ->where('Niveaus_id','=',$idNiveau)
                     ->where('TPs_id','=',$idTP)->get();
-     dd($LiesteEtuInscrit->count());
+
+       $LiesteGroupe = Inscrit::where('AnneeUnivs_id','=',$anneActive->id)
+                    ->where('Niveaus_id','=',$idNiveau)
+                    ->where('TPs_id','=',$idTP)->distinct()->get(['Groupes_id']);
+
+       $idG1 = Groupe::where('numeroG','=',1)->first();
+       $NbParGroupe = Inscrit::where('AnneeUnivs_id','=',$anneActive->id)
+                    ->where('Niveaus_id','=',$idNiveau)
+                    ->where('TPs_id','=',$idTP)->where('Groupes_id','=',$idG1->id)->get();
+
+     
+
         // return 'nbEtu, nbGroupe, nb par groupe';
+     $anneeUniv = $anneActive->LibelleAnnee;
+     $niveau = $Le_niveau->LibelleNiveau." ".$Le_niveau->filiere->LibelleFiliere;
+     $tp = $Le_TP->LibelleTp;
+     $nbEtudiant = $LiesteEtuInscrit->count();
+     $nbGroupe = $LiesteGroupe->count();
+     $nbParGroupe = $NbParGroupe->count();
 
+     // dd($LiesteEtuInscrit->count());
+     // dd($niveau->filiere->LibelleFiliere);
+     // dd($Le_niveau->LibelleNiveau);
+     // echo   'anneeUniv='.$anneeUniv.'; niveau='.$niveau.'; tp='.$tp.'; nbEtudiant='.$nbEtudiant. '; nbGroupe='.$nbGroupe.'; nbParGroupe='.$nbParGroupe; 
+     // dd($LiesteGroupe->count());
 
-     $reponseFiltre = array('nbEtudiant' => trim($bEtudiantAppel[0]['idBilan']), 
-                            'nbGroupe' => trim($bEtudiantAppel[0]['ticket']), 
-                            'nbParGroupe' => trim($bEtudiantAppel[0]['guichet'])
+     $reponseFiltre = array('anneeUniv' => $anneeUniv, 
+                            'niveau' => $niveau, 
+                            'tp' => $tp, 
+                            'nbEtudiant' => $nbEtudiant, 
+                            'nbGroupe' => $nbGroupe, 
+                            'nbParGroupe' => $nbParGroupe
                         );
 
 
-        return view('',compact(''));
+            return response()->json($reponseFiltre);
     }
 
 }
