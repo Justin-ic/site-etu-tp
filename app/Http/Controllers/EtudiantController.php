@@ -63,7 +63,8 @@ class EtudiantController extends Controller
         request()->validate([
             'nom' => ['required','string','max:30'], 
             'prenom' => ['required','string','max:30'], 
-            'nce' => ['required','string','max:30','unique:etudiants'], 
+            'NCE' => ['required','string','max:30','unique:etudiants'],  
+            /*NCE doit être le nom de la colonne de la table car in va faire un select avant*/
             'dateNaissance' => ['required','date'], 
             'email' => ['required','email','unique:etudiants'], 
             'password' => ['required'], 
@@ -75,7 +76,7 @@ class EtudiantController extends Controller
             Etudiant::create([
                 'Nom' => $request->nom,
                 'Prenom' => $request->prenom,
-                'NCE' => $request->nce,
+                'NCE' => $request->NCE,
                 'DateNaissance' => $request->dateNaissance,
                 'email' => $request->email,
                 'password' => $request->password

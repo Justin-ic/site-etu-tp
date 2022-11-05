@@ -77,7 +77,7 @@
 
             <div class="form-group">
                 <b>N° CE:</b>
-                <input class="form-control" required type="text" value="{{ old('nce') }}" name="nce">
+                <input class="form-control" required type="text" value="{{ old('NCE') }}" name="NCE"> 
             </div>
 
             <div class="form-group">
