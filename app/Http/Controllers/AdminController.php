@@ -45,7 +45,7 @@ if ($etatConfig == NULL) {
 $configNonTerminer = "Configuration mal faite: Il esxiste des étudiants inscrits qui n'ont pas de groupe !";
             return view('configurationEnCours',compact('configNonTerminer'));
 */
-dd($anneActive);
+// dd($anneActive);
 
 if ($anneActive == NULL) {
     $configNonTerminer = "Etape 1: Déffinissez une année universitaire s'il vous plait !";
