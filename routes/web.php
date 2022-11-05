@@ -179,3 +179,30 @@ Route::post('evaluation', [NotesController::class,'evaluation'])->name('evaluati
 /*Info github*/
 // user=Justin-ic
 // Le Mot de passe pour fair un push: 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 
+
+
+/*
+
+configuration de la base de donnée
+
+postgres:// vwxhztosbfetaw : ed9c3520b8a497508dd19658beb1b926fa94651e6343272e6d1e98a5c3a7f89c @ ec2-34-207-12-160.compute-1.amazonaws.com : 5432 / d7i8keapc7fcia
+
+
+DB_CONNECTION=pgsql      // car on a utilise postgres 
+DB_USERNAME=vwxhztosbfetaw
+DB_PASSWORD=ed9c3520b8a497508dd19658beb1b926fa94651e6343272e6d1e98a5c3a7f89c
+DB_HOST=ec2-34-207-12-160.compute-1.amazonaws.com 
+DB_PORT=5432
+DB_DATABASE=d7i8keapc7fcia
+
+
+
+
+
+
+
+
+
+
+
+*/
