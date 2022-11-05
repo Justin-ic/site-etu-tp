@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB; // pour utiliser les requêtes personnalisées
 use Illuminate\Support\Facades\Http; // pour utiliser les requêtes personnalisées API Laravel http::get()
 use App\Models\Etudiant;
+use App\Models\AnneeUniv;
+use App\Models\Inscrit;
 use PDF;
 
 class EtudiantController extends Controller
@@ -20,6 +22,8 @@ class EtudiantController extends Controller
     {
         //
     }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -79,7 +83,7 @@ class EtudiantController extends Controller
             $message = "Créer avec succsès!";
                 $etudiantConnect = Etudiant::latest('id')->first();
                 // dd($etudiantConnect->id);
-                session_start();
+                if (!isset($_SESSION)) { session_start(); }
                 $_SESSION['Etudiant'] = $etudiantConnect;
             return redirect()->route('accueil')->with('message');
     }
@@ -116,19 +120,50 @@ class EtudiantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        $client = Etudiant::find($request->id);
-        $client->update([
-            'Nom' => $request->nom,
-            'Prenom' => $request->prenom,
-            'NCE' => $request->genre,
-            'DateNaissance' => $request->numero,
-            'email' => $request->nce,
-            'password' => $request->nce
+    public function update(Request $request)
+    { 
+        if (!isset($_SESSION)) { session_start(); }
+        if (!isset($_SESSION['Etudiant'])) {
+            $message = "Connectez-vous d'abord s'il vous plait !";
+            return view('note_found', compact('message'));
+        }
+        
+        request()->validate([
+            'idEtu' => ['required'], 
+            'nom' => ['required','string','max:30'], 
+            'prenom' => ['required','string','max:30'], 
+            'nce' => ['required','string','max:30'], 
+            'dateNaissance' => ['required','date'], 
+            'email' => ['required','email'], 
+            'password' => ['required'], 
+            'passConfirme' => ['required','same:password']
         ]);
-        $message = "Modifier avec succsès!";
-        return redirect()->route('accueil');
+
+        $nceExiste = Etudiant::where('nce','=',$request->nce)
+                               ->where('id','!=',$request->idEtu)
+                               ->first();
+
+        $emailExiste = Etudiant::where('email','=',$request->email)
+                               ->where('id','!=',$request->idEtu)
+                               ->first();
+        if ($nceExiste != NULL) {
+            return back()->withErrors(["Erreur_nceExiste" =>"Ce Numéro de carte étudiante esxiste déjà !"]);  
+        }
+        if ($emailExiste != NULL) {
+            return back()->withErrors(["Erreur_emailExiste" =>"Ce email esxiste déjà !"]);
+        }
+
+            $etudiant = Etudiant::find($request->idEtu);
+            $etudiant->update([
+                'Nom' => $request->nom,
+                'Prenom' => $request->prenom,
+                'NCE' => $request->nce,
+                'DateNaissance' => $request->dateNaissance,
+                'email' => $request->email,
+                'password' => $request->password
+            ]);
+
+        return redirect()->route('accueil')->with('status','Données modiffiers avec succès !');
     }
 
     /**
@@ -157,10 +192,10 @@ class EtudiantController extends Controller
             'pass' => ['required']
         ]);
         $etudiantConnect = Etudiant::where('email','=',$request->email)
-                                    ->where('password','=',$request->pass)->get();
+                                    ->where('password','=',$request->pass)->first();
                                 // dd($etudiantConnect->count());    
-        if ($etudiantConnect->count() > 0) {
-            session_start();
+        if ($etudiantConnect != NULL) {
+            if (!isset($_SESSION)) { session_start(); }
             $_SESSION['Etudiant'] = $etudiantConnect;
 
              return redirect()->route('accueil');
@@ -169,4 +204,7 @@ class EtudiantController extends Controller
         }
         
     }
+
+
+
 }

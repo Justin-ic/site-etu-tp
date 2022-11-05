@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class admin extends Model
 {
     use HasFactory;
-    protected $fillable = ['Nom','Prenom','email','password'];
+    protected $fillable = ['Nom','Prenom','email','password','etatConfig'];
 }
 
 

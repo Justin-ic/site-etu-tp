@@ -18,6 +18,12 @@ class NiveausController extends Controller
      */
     public function index()
     {
+        $FiliereExiste = Filiere::first();
+        if ($FiliereExiste == NULL) {
+            $configNonTerminer = "Ajoutez une filière d'abord s'il vous plait !";
+            return view('configurationEnCours',compact('configNonTerminer'));
+        }
+
         $Liste_nivaux = Niveau::with('filiere')->latest()->Paginate(5);
         $Liste_Filiere = Filiere::latest()->get();
 

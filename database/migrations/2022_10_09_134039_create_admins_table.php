@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('Prenom',100);
             $table->string('email',50);
             $table->string('password',50);
+            $table->integer('etatConfig')->nullable();
             $table->timestamps();
         });
     }

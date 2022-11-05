@@ -11,14 +11,15 @@
 	<link rel="stylesheet" type="text/css" href="{{ asset('styles/style.css') }}">
   <!-- Pour PDF -->
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script> --> 
-  <!-- <link rel="stylesheet" type="text/css" href="{{ asset('images/styleBienvenue.css') }}"> -->
+
+  <script type="text/javascript" src="{{  asset('styles/js/xlsx.full.min.js')  }}"></script>
+
   <script type="text/javascript" src="{{  asset('styles/js/ajax_2_2_0_jquery.min.js')  }}"></script>
   
   <!-- Matérial designe -->
   <!-- <link rel="stylesheet" href="{{  asset('styles/MDB5/ css/mdb.min.css')  }}" /> -->
 
 
-<!-- ******************************** Templat ******************************************** -->
 
 <!-- ******************************** Templat ******************************************** -->
 
@@ -41,11 +42,11 @@ function horloge()
 
 <div class="container-fluid" id="invoice">
     @yield('contenu')
+
 </div>
 
 
 
-	<!-- @ include('inclusions.footer') -->
 
 
   <!-- popper pour dropdown et doit être placer avant les bootstraps.js-->

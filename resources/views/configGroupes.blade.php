@@ -11,6 +11,88 @@
 
 
 
+
+
+
+
+<!-- ****************************** Etudiants inscrits sans groupe ****************************** -->
+<?php if ($Liste_InscritSansGroupe->count() > 0): ?>
+
+<div class="card shadow mb-4 TableCard">
+    <div class="card-header py-3">
+        <div class="row d-flex">
+            <div class="col-sm-9 d-flex justify-content-start">
+                <h2 class="m-0 font-weight-bold text-primary">Etudiants inscrits sans groupe</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+<b><u>Configuration des groupes:</u></b> Terminez l'inscription de ces étudiants en configurant leur groupe à l'étape 1.
+
+    
+
+<div class="table-responsive">
+    <h1 class="MCenter"></h1>
+    <table class="table table-bordered table-striped tableGroupe" id="editable">
+        <thead id="AjoutTitre">
+            <tr class="MCenter">
+                <th>N°</th>
+                <th>Nom</th>
+                <th>Prenon</th>
+                <th>N° Carte Etudiante</th>
+                <th>Niveau</th>
+                <th>TP</th>
+                <!-- <th colspan="2">Action</th> -->
+            </tr>
+        </thead>
+
+        <tbody>
+            <?php $i=1;foreach ($Liste_InscritSansGroupe as  $inscrit):  ?>
+
+            <tr  class="MCenter">
+                <td><?=$i++ ?></td>
+                <td><?=$inscrit->etudiant->Nom ?></td>
+                <td><?=$inscrit->etudiant->Prenom ?></td>
+                <td><?=$inscrit->etudiant->NCE ?></td>
+                <td><?=$inscrit->niveau->LibelleNiveau ?> <?=$inscrit->niveau->filiere->LibelleFiliere ?></td>
+                <td><?=$inscrit->Tp->LibelleTp ?></td>
+            </tr> 
+            <?php endforeach ?>
+
+        </tbody>
+        
+<!--         <tfoot  class="MCenter">
+            <th>N°</th>
+            <th>Nom</th>
+            <th>Prenon</th>
+            <th>N° Carte Etudiante</th>
+            <th>Date de Naissance</th>
+            <th>Email</th>
+        </tfoot> -->
+    </table>
+</div>
+
+
+
+    </div><!-- fin card shadow -->
+</div><!-- fin card-body -->
+
+<?php endif ?>
+
+
+
+<!-- ****************************** Etudiants inscrits sans groupe ****************************** -->
+
+
+
+
+
+
+
+
+
+
+
 <!-- ****************************** REPARTITION DES GROUPES *********************************** -->
 <div class="card shadow mb-4 mt-4 TableCard">
     <div class="card-header py-3">
@@ -32,11 +114,24 @@
 Cette partie de la configuration consiste à repartir les étudiants dans les groupes. <br>
 Il sufit d'indiquer le nombre d'étudiant que vous souhaitez par groupe et laissez la magie s'opérer. <span class="fas fa-grin-stars"></span>
 
+<?php if (!isset($_SESSION)) { session_start(); }?>
+<?php if (isset($_SESSION['ConfigGOK']) && $_SESSION['ConfigGOK'] != "" ): ?>
+    
+<div id="ul_alert_success"> 
+    <div class="alert d-flex align-items-center justify-content-center alert_success">
+        <?=$_SESSION['ConfigGOK']?>
+          <script type="text/javascript">setTimeout(function() {
+          document.getElementById('ul_alert_success').innerHTML = "";},7000);</script>
+  </div>
+</div>
+
+<?php $_SESSION['ConfigGOK']=""; ?>
+<?php endif ?>
+
 
     </div><!-- fin card shadow -->
 </div><!-- fin card-body -->
 <!-- ****************************** REPARTITION DES GROUPES *********************************** -->
-
 
 
 
@@ -74,6 +169,8 @@ Il sufit d'indiquer le nombre d'étudiant que vous souhaitez par groupe et laiss
   </div>
 </div>
 @endif
+
+
 <div id="ul_alert">
 
 </div>
@@ -136,8 +233,7 @@ guichet_personnel */
 
     </div><!-- fin card shadow -->
 </div><!-- fin card-body -->
-
-
+<!-- ****************************** GESTION DES GROUPES *********************************** -->
 
 
 
@@ -347,7 +443,7 @@ guichet_personnel */
         <div class="form-group">
             <b>Niveau:</b>
             <select class="form-control" required name="NiveauIdFiltre" id="modale_Niveau">
-                <option value="" >--Choisir--</option>
+                <option value="" ><b>--Choisir--</b></option>
 
                 <?php foreach ($Liste_Niveau as $key => $Niveau): ?>
                 <option value="<?=$Niveau->id ?>"><?=$Niveau->LibelleNiveau?> <?=$Niveau->filiere->LibelleFiliere?></option>
@@ -359,7 +455,7 @@ guichet_personnel */
         <div class="form-group">
             <b>TP:</b>
             <select class="form-control" required name="TpIdFiltre" id="modale_Tp">
-                <option value="" >--Choisir--</option>
+                <option value="" ><b>--Choisir--</b></option>
 
                 <?php foreach ($Liste_TP as $key => $tp): ?>
                 <option value="<?=$tp->id ?>"><?=$tp->LibelleTp ?></option>

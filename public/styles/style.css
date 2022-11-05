@@ -183,6 +183,17 @@ a{
     width: 100%;
     margin-top: 15px;
 }
+.btnDisabled{
+    border: 1px solid black;
+    padding: 0px;
+    margin: 0px;
+    cursor: not-allowed;
+}
+.btnNotDisabled{
+    border: 1px solid black;
+    padding: 0px;
+    cursor: none;
+}
 
 
 input .unTest{
@@ -208,7 +219,13 @@ input .unTest{
     background-color: #dee9ff;
 }
 
-.borderTest{
+.form_etu_titre3{
+    margin-top: 5px;
+    border-radius: 10px;
+    color: red;
+}
+
+.mbt{
     border: 4px solid black;
 }
 .btnValide{
@@ -231,9 +248,56 @@ input .unTest{
 
     /*padding: calc(var(--bs-gutter-x) * .2);*/
 }
+
+.config_buttonEval{
+    background-color: #2bb33a; 
+    border-radius: 4px;
+    font-size: calc(1.0rem + 1.4vw);
+}
+.config_buttonEval:hover{
+    background-color: #37ca47;
+    color: black; 
+}
+
+.config_detail_button{
+    padding: 5px;
+    font-size: calc(0.4rem + 0.7vw); 
+}
+
+
+.table_Bilan tbody tr:hover{
+    background-color: #00ffdb42;
+    /*background-color: #56acdf6b;*/
+}
+
 .confid_a{
     padding: 3px;
     height: 80px;
+}
+.confid_a_R_detailG{
+    padding: 3px;
+    margin-top:30px ;
+    margin-bottom: 30px ;
+}
+
+.TitreDetailG {
+    background-color: #56acdf6b;
+    margin-left: 0px;
+    border-radius: 7px;
+}
+
+.confid_a_Telecharg{
+    padding: 3px;
+}
+
+.confid_b_R_detailG{
+    font-size: calc(1.0rem + 0.5vw);
+    width: 100%;
+    height: 100%;
+}
+.confid_b_R_Telecharg{
+    font-size: calc(1.0rem + 0.5vw);
+    height: 100%;
 }
 
 .conf_titl{
@@ -262,6 +326,10 @@ input .unTest{
 
 #ul_alert{
     margin-bottom: 0px;
+}
+.alert_success {
+    background-color: #76f77696;
+    font-size: calc(0.6rem + 1.0vw); 
 }
 /******************* formulaire etudiant ****************************/
 
@@ -296,6 +364,12 @@ th, td{
 
 .xxxxxx{
     color: #ffc107;
+}
+
+
+.tableProfiEtu td,.tableProfiEtu tr {
+    font-size: calc(0.8rem + 0.8vw);
+
 }
 
 /*

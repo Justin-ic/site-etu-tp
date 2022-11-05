@@ -10,6 +10,7 @@ use App\Http\Controllers\NiveausController;
 use App\Http\Controllers\TPsController;
 use App\Http\Controllers\SallesController;
 use App\Http\Controllers\GroupesController;
+use App\Http\Controllers\NotesController;
 // use PDF;
 /*
 |--------------------------------------------------------------------------
@@ -45,15 +46,6 @@ Route::get('accueil', function () {
         $message = "Connectez-vous d'abord s'il vous plait !";
         return view('note_found', compact('message'));
     }
-/*
-    if (isset($_SESSION['Admin'])) {
-        return view('accueil'); 
-    } else if(isset($_SESSION['Etudiant'])){
-        return view('accueil');
-    }else{
-        $message = "Connectez-vous d'abord s'il vous plait !";
-        return view('note_found', compact('message'));
-    }*/
 })->name('accueil');
 
 
@@ -61,9 +53,11 @@ Route::get('accueil', function () {
 
 /*****************************clients************************************/
 Route::resource('config', AdminController::class); 
+Route::post('config/profil', [AdminController::class,'update'])->name('updateAdmin'); 
 Route::post('config/login', [AdminController::class,'loginAdmin'])->name('loginAdmin'); 
 Route::post('login', [EtudiantController::class,'loginEtu'])->name('loginEtu'); 
 
+Route::get('monProfil', [AdminController::class,'profil'])->name('monProf'); 
 
 
 /***********************Gestion des tableaux éditables*****************************/
@@ -85,7 +79,8 @@ Route::resource('etudiant', EtudiantController::class);
 
 Route::post('etudiant/Store_etudiant', [EtudiantController::class,'store'])->name('Store_etudiant'); 
 
-Route::post('etudiant/update_etudiant/{id}', [EtudiantController::class,'update'])->name('update_etudiant'); 
+Route::post('etudiant/update_etudiant', [EtudiantController::class,'update'])->name('update_etudiant'); 
+
 Route::get('clients/destroy_etudiant/{id}', [EtudiantController::class,'destroy'])->name('destroy_etudiant'); 
 
 
@@ -93,7 +88,8 @@ Route::get('clients/destroy_etudiant/{id}', [EtudiantController::class,'destroy'
 Route::resource('inscrits', InscritsController::class); 
 // Dans ce cas, nous même, on ne nomme pas les routes car la nomination est faite automatiquement 
 
-Route::post('inscrits/update_inscrits/{id}', [InscritsController::class,'update'])->name('update_inscrits'); 
+Route::post('inscrits/update_Niv', [InscritsController::class,'update'])->name('update_InsNiv'); 
+Route::post('inscrits/update_TP', [InscritsController::class,'updateTp'])->name('update_InsTP'); 
 Route::get('clients/destroy_inscrits/{id}', [InscritsController::class,'destroy'])->name('destroy_inscrits'); 
 
 
@@ -154,13 +150,32 @@ Route::get('configFiltreG/{idNiveau}/{idTP}', [AdminController::class,'configFil
 
 
 
-// Route::resource('configGroupe/{idNiveau}/{idTP}', GroupesController::class); 
+// Route::resource('configDetailG/{idNiveau}/{idTP}', AdminController::class); 
 
-// Route::post('niveaux/update/{id}', [FilieresController::class,'update'])->name('update_filieres'); 
+Route::get('configDetailG/{idNiveau}/{idTP}', [AdminController::class,'configAfficheDetailG'])->name('configDetailG'); 
 // Route::get('niveaux/destroy/{id}', [FilieresController::class,'destroy'])->name('destroy_filieres'); 
 
 
 
 
+
+
+// Route::resource('configDetailG/{idNiveau}/{idTP}', AdminController::class); 
+/* Pour sortir d'un TP si on n'a pas encore de note*/
+Route::get('sortiTP/{idTP}', [InscritsController::class,'sortiTP'])->name('sortiTP'); 
+// Route::get('niveaux/destroy/{id}', [FilieresController::class,'destroy'])->name('destroy_filieres'); 
+
+
+
+
+// Route::resource('configDetailG/{idNiveau}/{idTP}', AdminController::class); 
+/* Pour sortir d'un TP si on n'a pas encore de note*/
+Route::post('evaluation', [NotesController::class,'evaluation'])->name('evaluation'); 
+// Route::get('niveaux/destroy/{id}', [FilieresController::class,'destroy'])->name('destroy_filieres'); 
+
+
+
+
+/*Info github*/
 // user=Justin-ic
-// Le Mot de passe pour fair un push: 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
+// Le Mot de passe pour fair un push: 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 

@@ -15,16 +15,25 @@
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
           <li class="nav-item">
-              <a class="nav-link" href="{{route('config.index')}}">Accueil</a>
+              <a class="nav-link" href="{{route('accueil')}}">Accueil</a>
           </li>
-          <li class="nav-item">
+
+          <?php  if (!isset($_SESSION)) {session_start();} ?>
+          <?php if(isset($_SESSION['Admin'])): ?>
+            <li class="nav-item">
               <a class="nav-link" href="{{route('config.index')}}">Configuration</a>
-          </li>
-          <li class="nav-item">
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{route('config.index')}}">Evaluation</a>
+            </li>
+          <?php else: ?>
+            <li class="nav-item">
               <a class="nav-link" href="{route('accueil')}">Notes</a>
           </li>
+          <?php endif ?>
+
           <li class="nav-item">
-              <a class="nav-link" href="{route('accueil')}">Profil</a>
+              <a class="nav-link" href="{{route('monProf')}}">Profil</a>
           </li>
           
       </ul>
@@ -36,12 +45,16 @@
   </span> -->
 <?php  if (!isset($_SESSION)) {session_start();} ?>
   <?php if(isset($_SESSION['Admin'])): ?>
-      <span class="d-flex justify-content-start profil_header"><b><?=$_SESSION['Admin']->Nom?> <?=$_SESSION['Admin']->Prenom[0]?></b></span>
+      <a href="{{route('admin')}}" title="Je me déconnecte">
+        <span class="d-flex justify-content-start profil_header"><b><?=$_SESSION['Admin']->Nom?> <?=$_SESSION['Admin']->Prenom[0]?></b></span>
+      </a>
   <?php endif ?>
 
 
   <?php if (isset($_SESSION['Etudiant'])): ?>
-      <span class="d-flex justify-content-start profil_header"><b><?php $Etud =$_SESSION['Etudiant'][0]; ?> <?=$Etud->Nom?> <?=$Etud->Prenom[0]?></b></span>
+      <a href="{{route('connexion')}}" title="Je me déconnecte">
+        <span class="d-flex justify-content-start profil_header"><b><?=$_SESSION['Etudiant']->Nom?> <?=$_SESSION['Etudiant']->Prenom[0]?></b></span>
+      </a>
   <?php endif ?>
 </div>
 

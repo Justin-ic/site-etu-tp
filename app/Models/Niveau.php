@@ -25,8 +25,14 @@ class Niveau extends Model
 */
 
     public function filiere() {
-        return $this->belongsTo(Filiere::class,'Filieres_id'); // Relation One to Many: niveau est le fils
+        return $this->belongsTo(Filiere::class,'Filieres_id'); // Relation One to Many: niveau est le fils et filière le père
     } 
+
+
+    public function inscrits() {
+        return $this->hasMany(Inscrit::class,'Niveaus_id'); // Relation One to Many: etudiant est le père
+        // un étudiant peut s'inscrire dans plusieurs TP
+    }
 
     // Relation One To MAny: un niveau (L1) est lié à une seule filière. une filière est liée à +s niveaux
     // Niveau est le fils; il prend le id du père

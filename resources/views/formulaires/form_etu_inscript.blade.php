@@ -6,6 +6,21 @@
 
 <div class="col-10 col-md-6">
 
+@if(count($errors) > 0)
+<div id="ul_alert_error">
+    <div class="alert alert-danger d-flex align-items-center">
+        <ul id="ul_alert">
+          @foreach ($errors->all() as $error)
+          <li>{{$error}}</li>
+          <script type="text/javascript">setTimeout(function() {
+          document.getElementById('ul_alert_error').innerHTML = "";},5000);</script>
+          @endforeach
+      </ul>
+  </div>
+</div>
+@endif
+
+
  <div class="card shadow mb-4 TableCard">
     <div class="card-header py-3">
       <h1 class="m-0 font-weight-bold text-primary MCenter" id="info_tp">Inscription au TP</h1>

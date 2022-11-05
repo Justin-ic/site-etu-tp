@@ -5,7 +5,7 @@
 <div class="d-flex justify-content-center  align-items-center div_connexion">
 <div class="container-fluid ">
 <div class="row d-flex justify-content-center align-items-center">
-    <div class="col-10 col-md-4">
+<div class="col-10 col-md-4">
 @if(count($errors) > 0)
 <div id="ul_alert_error">
     <div class="alert alert-danger d-flex align-items-center">

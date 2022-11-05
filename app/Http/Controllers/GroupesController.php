@@ -9,6 +9,8 @@ use App\Models\Groupe;
 use App\Models\Salle;
 use App\Models\Niveau;
 use App\Models\Tp;
+use App\Models\Inscrit;
+use App\Models\AnneeUniv;
 
 class GroupesController extends Controller
 {
@@ -19,17 +21,26 @@ class GroupesController extends Controller
      */
     public function index()
     {
+        $anneActive = AnneeUniv::where('etat','=','Active')->first();
         $Liste_groupe = Groupe::with('salle')->orderBy('numeroG','ASC')->Paginate(5);
         $Liste_Salle = Salle::latest()->get();
         $Liste_Niveau = Niveau::with('filiere')->get();
         $Liste_TP = Tp::latest()->get();
+
+        $Liste_InscritSansGroupe = Inscrit::with('etudiant')
+                     ->with('niveau' , function($query) {
+                            $query->with('filiere');
+                        })
+                    ->with('Tp')
+                    ->where('AnneeUnivs_id','=',$anneActive->id)
+                    ->where('Groupes_id','=', NULL)->get();
 
 /*        foreach ($Liste_nivaux as $liste) {
             dd($liste->LibelleGroupe);
             // dd($liste->filiere->LibelleFiliere);
         }*/
         
-        return view('configGroupes',compact('Liste_groupe','Liste_Salle','Liste_Niveau','Liste_TP'));
+        return view('configGroupes',compact('Liste_groupe','Liste_Salle','Liste_Niveau','Liste_TP','Liste_InscritSansGroupe'));
     }
 
 

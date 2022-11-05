@@ -26,9 +26,30 @@ class Inscrit extends Model
 */
 
     public function etudiant() {
-        return $this->belongsTo(Etudiant::class,'Etudiants_id'); // Relation One to Many: niveau est le fils
+        return $this->belongsTo(Etudiant::class,'Etudiants_id'); // Relation One to Many: inscrit est le fils: il prend le nom de son papa
     } 
 
+
+    public function niveau() {
+        return $this->belongsTo(Niveau::class,'Niveaus_id'); // Relation One to Many: inscrit est le fils
+    } 
+
+
+    public function Tp() {
+        return $this->belongsTo(Tp::class,'TPs_id'); // Relation One to Many: inscrit est le fils
+    } 
+
+
+    public function groupe() {
+        return $this->belongsTo(Groupe::class,'Groupes_id'); // Relation One to Many: inscrit est le fils
+    } 
+
+
+
+    public function notes() {
+        return $this->hasMany(Note::class,'Inscrits_id'); // Relation One to Many: inscrit est le père
+    } 
+    
     protected $fillable = ['Etudiants_id', 'AnneeUnivs_id', 'Niveaus_id', 'TPs_id', 'Groupes_id'];
     
 }

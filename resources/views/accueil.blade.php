@@ -6,25 +6,28 @@
 
 <div id="carouselExampleSlidesOnly" class="carousel slide div_carousel " data-bs-ride="carousel" >	
 <div class="row  col-12 d-flex justify-content-center align-items-end text_accueil">
-      <div id="ul_alert_error" class=" col-12 col-md-8 d-flex justify-content-center align-items-end">
-         <?php if (isset($_SESSION['inscritOk']) && $_SESSION['inscritOk'] != ''): ?>
-       <div class="MCenter h1_alert bg-info">
-         <?=$_SESSION['inscritOk']?>
-         <script type="text/javascript">setTimeout(function() {
-          document.getElementById('ul_alert_error').innerHTML = "";},5000);</script>
-       </div>
-       <?php unset($_SESSION['inscritOk']);endif ?>
-    <!-- <button  id="download" class="btn btn-primary"> PDF</button> -->
+
+
+
+  @if (session('status')) 
+  <div id="ul_alert_error" class=" col-12 col-md-8 d-flex justify-content-center align-items-end">
+    <div class="MCenter h1_alert bg-info">
+     {{session('status')}}
+     <script type="text/javascript">setTimeout(function() {
+     document.getElementById('ul_alert_error').innerHTML = "";},7000);</script>
+    </div>
   </div>
+  @endif
 
 
-
-  <div class=" col-12 d-flex justify-content-center align-items-end">
-     <a href="{{route('inscrits.create')}}" class="btn btn-primary d-grid gap-2 col-12 col-md-8 a_text_accueil">
-       <h1 class="MCenter h1_accueil">Je m'inscris!</h1>
-     </a>
-    <!-- <button  id="download" class="btn btn-primary"> PDF</button> -->
-  </div>
+  <?php if (!isset($_SESSION['Admin'])): ?>  
+    <div class=" col-12 d-flex justify-content-center align-items-end">
+       <a href="{{route('inscrits.create')}}" class="btn btn-primary d-grid gap-2 col-12 col-md-8 a_text_accueil">
+         <h1 class="MCenter h1_accueil">Je m'inscris!</h1>
+       </a>
+      <!-- <button  id="download" class="btn btn-primary"> PDF</button> -->
+    </div>
+  <?php endif ?>
 </div>
  
   <div class="carousel-inner div_accuil" >
@@ -70,7 +73,7 @@
                     </div>
 
                     <div class="col-lg-4 a3 a_accueil sectionChild">
-                      <a href="{{route('etudiant.edit',1)}}" class="a_white" type="button">
+                      <a href="{{route('monProf')}}" class="a_white" type="button">
                         <div class="features-icons-item mx-auto mb-0 mb-lg-3">
                             <div class="features-icons-icon d-flex"><i class="bi-terminal m-auto text-primary"></i></div>
                             <h3 class="fs-2 fw-bold">Mon profil </h3>
