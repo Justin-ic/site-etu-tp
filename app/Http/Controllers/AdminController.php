@@ -200,7 +200,7 @@ Je parcours la liste des inscrit où le id Niveau et id TP figure, pour chaque g
         if (!isset($_SESSION)) { session_start(); }
             $_SESSION['Admin'] = $AdminConnect;
 
-        return redirect()->route('configuration.index');
+        return redirect()->route('config.index');
     }
 
 
