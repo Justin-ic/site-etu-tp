@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('Filieres_id'); //One to Many pour une filière donnée (MI) on a plusieurs niveaux (L1, L2) 
 
             // définition des relations
-            $table->foreign('Filieres_id')->references('id')->on('filieres')->onDelete('cascade')->onUpdate('cascade'); 
+            $table->foreign('Filieres_id')->references('id')->on('filieres'); 
             $table->timestamps();
         });
     }

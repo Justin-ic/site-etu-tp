@@ -19,6 +19,6 @@ class Groupe extends Model
         // un étudiant peut s'inscrire dans plusieurs TP
     }
     
-    protected $fillable = ['numeroG', 'Salles_id'];
+    protected $fillable = ['numeroG', 'Salles_id']; 
     
 }

@@ -20,7 +20,14 @@
   @endif
 
 
-  <?php if (!isset($_SESSION['Admin'])): ?>  
+  <?php if (isset($_SESSION['Admin'])): ?>  
+    <div class=" col-12 d-flex justify-content-center align-items-end">
+       <a href="" class="btn btn-primary d-grid gap-2 col-12 col-md-8 a_text_accueil">
+         <h1 class="MCenter h1_accueil">Bienvenue Admin!</h1>
+       </a>
+      <!-- <button  id="download" class="btn btn-primary"> PDF</button> -->
+    </div>
+  <?php else: ?>
     <div class=" col-12 d-flex justify-content-center align-items-end">
        <a href="{{route('inscrits.create')}}" class="btn btn-primary d-grid gap-2 col-12 col-md-8 a_text_accueil">
          <h1 class="MCenter h1_accueil">Je m'inscris!</h1>
@@ -28,6 +35,7 @@
       <!-- <button  id="download" class="btn btn-primary"> PDF</button> -->
     </div>
   <?php endif ?>
+
 </div>
  
   <div class="carousel-inner div_accuil" >
@@ -94,30 +102,30 @@
     <div class="col-12 col-md-12">
       <div class="card shadow mb-4 TableCard">
         <div class="card-header py-3">
-          <h1 class="m-0 font-weight-bold text-primary MCenter" id="info_tp">Information sur TP</h1>
+         <div class="row">
+          <div class="col-12 col-md-7"><h1 class="m-0 font-weight-bold text-primary " id="info_tp">Information sur TP</h1></div>
+         <?php if (isset($_SESSION['Admin'])): ?>  
+
+          <div class="col-sm-3 d-flex justify-content-end ms-auto p-2 ">
+            <!-- Button trigger modal -->
+            <a href="{{route('Tps.index')}}">
+              <button type="button" class="btn btn-primary">
+                <i class="fas fa-plus "></i>
+                Modiffier 
+              </button>
+            </a>
+          </div>
+        <?php endif ?>
+
+         </div>
         </div>
         <div class="card-body">
 
-          Jusque là, on a une seul table dans la BD; on va ajouter une deuxième et établir 
-          une relation entre elles. À la table clients, ajoutons la table entreprises. On dira qu’une entreprise 
-          peut avoir plusieurs clients et qu’un client peut appartenir à une et une entreprise. Donc on met la 
-          clef id) de entreprises dans clients comme clef secondaire.
-          Voila le résultat. <br><br>
-          Jusque là, on a une seul table dans la BD; on va ajouter une deuxième et établir 
-          une relation entre elles. À la table clients, ajoutons la table entreprises. On dira qu’une entreprise 
-          peut avoir plusieurs clients et qu’un client peut appartenir à une et une entreprise. Donc on met la 
-          clef id) de entreprises dans clients comme clef secondaire.
-          Voila le résultat. <br><br>
-          Jusque là, on a une seul table dans la BD; on va ajouter une deuxième et établir 
-          une relation entre elles. À la table clients, ajoutons la table entreprises. On dira qu’une entreprise 
-          peut avoir plusieurs clients et qu’un client peut appartenir à une et une entreprise. Donc on met la 
-          clef id) de entreprises dans clients comme clef secondaire.
-          Voila le résultat. <br><br>
-          Jusque là, on a une seul table dans la BD; on va ajouter une deuxième et établir 
-          une relation entre elles. À la table clients, ajoutons la table entreprises. On dira qu’une entreprise 
-          peut avoir plusieurs clients et qu’un client peut appartenir à une et une entreprise. Donc on met la 
-          clef id) de entreprises dans clients comme clef secondaire.
-          Voila le résultat
+          @if ($infoTP != NULL) 
+          {!! $infoTP->texteInfo !!}
+          
+          @endif
+
         </div><!-- fin card-body -->
       </div><!-- fin card shadow -->
 
@@ -125,6 +133,12 @@
   </div> <!-- fin row -->
 
 <!-- ************************** Détailles1 ***************************** -->
+
+
+
+
+  <?php if (isset($_SESSION['ListeNotesEtu'])): ?>  
+
 
 
 <!-- ************************** Détailles2 ***************************** -->
@@ -137,12 +151,12 @@
         </div>
         <div class="card-body">
 
-          Jusque là, on a une seul table dans la BD; on va ajouter une deuxième et établir 
-          une relation entre elles. À la table clients, ajoutons la table entreprises. On dira qu’une entreprise 
-          peut avoir plusieurs clients et qu’un client peut appartenir à une et une entreprise. Donc on met la 
-          clef id) de entreprises dans clients comme clef secondaire.
-          Voila le résultat. <br><br>
 
+          <div class="row d-flex justify-content-center ">
+            <div class="col-12 col-md-6 ">
+              <h3 class="MCenter">{{$_SESSION['Etudiant']->Nom}} {{$_SESSION['Etudiant']->Prenom}}</h3>
+            </div>
+          </div>
 
   <div class="row d-flex justify-content-center align-items-center">
     <div class="col-12 col-md-8">
@@ -151,9 +165,8 @@
           <thead>
             <tr class="MCenter">
               <th>N°</th>
-              <th>Date</th>
-              <th>Présence</th>
               <th>Note</th>
+              <th>Date</th>
             </tr>
           </thead>
         <!--         <pre>
@@ -163,49 +176,36 @@
         ?></pre> -->
         <tbody>
           <?php /*$i=1; if ($liste->count() > 0):  if (isset($_GET['page'])) { $i=$_GET['page']*5 - 4;}*/ ?>
-          <?php /*foreach ($liste as $description):*/ ?>
+          <?php $i=1; foreach ($_SESSION['ListeNotesEtu'] as $note): ?>
             <tr  class="MCenter">
-              <td>< ?=$i++ ?></td>
-              <td>$description->created_at->format('d/m/Y')}}</td>
-               < ?php if ($bilant->etat == 1) {  
-                    ?>  <td><span class="fas fa-check-circle faAbsent" title="Présent"></span></td>  < ?php   
-                  } else {
-                    ?>  <td><span class="fas fa-times-circle faPresent" title="Abescent"></span></td>  < ?php   
-                  }
-                ?>
-              <td>xxxxx</td>
+              <td><?=$i++?></td>
+              <td>{{$note->Note}}</td>
+              <td>{{$note->created_at->format('d/m/Y')}}</td>
               </tr> 
-            <?php /*endforeach*/ ?> 
+            <?php endforeach ?> 
           <?php /*endif*/ ?>
         </tbody>
 
         <tfoot  class="MCenter">
           <th>N°</th>
-          <th>Date</th>
-          <th>Présence</th>
           <th>Note</th>
+          <th>Date</th>
         </tfoot>
     </table>
   </div><!-- fin div table-responsive -->
               
 
-    <div class="row">
-       <div class="col-9 ">
-        <div class="paginate float-end">
-           $liste->links() }}   
-        </div>
-      </div>
-    </div>
-
  </div> <!-- fin col-8 -->
 </div><!-- fin row -->
 
 <br>
-<div>
+<!-- <div>
   <p class="fs-3"><b>Assiduité:</b> Vous avez manqué 2 séances de TP. Ce qui vous totalise 5 heurs d'absence.
     <a href="#mes_notes" type="button" class="btn btn-primary">Détails !</a>
   </p>
-</div>
+</div> -->
+
+
 
         </div><!-- fin card-body -->
       </div><!-- fin card shadow -->
@@ -213,7 +213,25 @@
     </div> <!-- fin col-12 col-md-9 -->
   </div> <!-- fin row -->
 
+
+
 <!-- ************************** Détailles2 ***************************** -->
+  
+  <?php endif ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

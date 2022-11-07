@@ -2,7 +2,7 @@
 
 @section('contenu')
 
-<div class="row d-flex justify-content-center align-items-center">
+<div class="row d-flex justify-content-center align-items-center mt-4">
     <div class="col-12 col-md-9">
 <!-- ******************** CONTENU GLOGAL ****************************** -->
 
@@ -33,7 +33,8 @@
 
 <div class="table-responsive">
     <h1 class="MCenter"></h1>
-    <table class="table table-bordered table-striped tableGroupe" id="editable">
+    <!-- <table class="table table-bordered table-striped tableGroupe" id="editable"> -->
+    <table class="table table-bordered table-striped " id="">
         <thead id="AjoutTitre">
             <tr class="MCenter">
                 <th>N°</th>
@@ -128,6 +129,15 @@ Il sufit d'indiquer le nombre d'étudiant que vous souhaitez par groupe et laiss
 <?php $_SESSION['ConfigGOK']=""; ?>
 <?php endif ?>
 
+  @if (session('status')) 
+  <div id="ul_alert_error" class=" col-12 d-flex align-items-center justify-content-center ">
+    <div class="MCenter h1_alert bg-info">
+     {{session('status')}}
+     <script type="text/javascript">setTimeout(function() {
+     document.getElementById('ul_alert_error').innerHTML = "";},10000000);</script>
+    </div>
+  </div>
+  @endif
 
     </div><!-- fin card shadow -->
 </div><!-- fin card-body -->
@@ -203,7 +213,7 @@ guichet_personnel */
                 <td><?=$i++ ?></td>
                 <td>Groupe {{$La_Liste_groupe->numeroG}}</td>
                 <?php if ($La_Liste_groupe->salle == NULL): ?>
-                    <td>Groupe pas défini</td>
+                    <td>Salle pas défini</td>
                 <?php else: ?>
                 <td>{{$La_Liste_groupe->salle->LibelleSalle}}</td>
                 <?php endif ?>

@@ -28,7 +28,7 @@
             </li>
           <?php else: ?>
             <li class="nav-item">
-              <a class="nav-link" href="{route('accueil')}">Notes</a>
+              <a class="nav-link" href="{{route('accueil')}}">Notes</a>
           </li>
           <?php endif ?>
 

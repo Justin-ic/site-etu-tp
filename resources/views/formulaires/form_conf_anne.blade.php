@@ -2,7 +2,7 @@
 @extends(' layouts.app')
 
 @section('contenu')
-<div class="row d-flex justify-content-center  align-items-center div_inscript">    
+<div class="row d-flex justify-content-center  align-items-center div_inscript mt-4">    
 
 <div class="col-10 col-md-6">
 

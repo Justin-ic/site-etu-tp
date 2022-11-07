@@ -56,7 +56,7 @@
           @foreach ($errors->all() as $error)
           <li>{{$error}}</li>
           <script type="text/javascript">setTimeout(function() {
-          document.getElementById('ul_alert_error').innerHTML = "";},7000);</script>
+          document.getElementById('ul_alert_error').innerHTML = "";},10000);</script>
           @endforeach
       </ul>
   </div>
@@ -108,7 +108,7 @@
         <!-- <input required type="hidden" value="etudiant" name="type"> -->
         <div class="row d-flex justify-content-center mb-4">
             <div class=" col-12 col-md-6">              
-                <a href="{{route('accueil')}}"><button type="button" class="btn btn-primary btnSuivRetour">Valider mes coordonnées</button></a>
+                <button type="submit" class="btn btn-primary btnSuivRetour">Valider mes coordonnées</button>
             </div>
         </div>
 
@@ -231,13 +231,13 @@
 
             <div class="row d-flex justify-content-center">
 
-                <div class=" col-6">              
+                <div class=" col-10">              
                     <a href="{{route('accueil')}}"><button type="button" class="btn btn-primary btnSuivRetour">Retour</button></a>
               </div>
 
-              <div class=" col-6 ">
+              <!-- <div class=" col-6 ">
                   <button id="suivant" class="btn btn-success btnSuivRetour" type="submit" >Modiffier</button>
-              </div>
+              </div> -->
             </div>
         </form>
             

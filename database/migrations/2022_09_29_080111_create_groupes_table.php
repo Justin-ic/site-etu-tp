@@ -20,7 +20,8 @@ return new class extends Migration
             // $table->unsignedBigInteger('tps_id'); // pour un TP donnée, on a plusieurs groupe qui s'échange matin et soir
 
             // définition des relations
-            $table->foreign('Salles_id')->references('id')->on('salles')->onDelete('cascade')->onUpdate('cascade'); 
+            $table->foreign('Salles_id')->references('id')->on('salles');
+            // ->onDelete('cascade')->onUpdate('cascade'); 
             // $table->foreign('tps_id')->references('id')->on('tps')->onDelete('cascade')->onUpdate('cascade'); 
             $table->timestamps();
         });

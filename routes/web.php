@@ -10,7 +10,7 @@ use App\Http\Controllers\NiveausController;
 use App\Http\Controllers\TPsController;
 use App\Http\Controllers\SallesController;
 use App\Http\Controllers\GroupesController;
-use App\Http\Controllers\NotesController;
+use App\Http\Controllers\NotesController; 
 // use PDF;
 /*
 |--------------------------------------------------------------------------
@@ -37,21 +37,14 @@ Route::get('admin', function () {
     return view('connec_admin');
 })->name('admin');
 
-Route::get('accueil', function () {
-    if (!isset($_SESSION)) { session_start(); }
-
-    if (isset($_SESSION['Admin']) || isset($_SESSION['Etudiant'])) {
-        return view('accueil'); 
-    }else{
-        $message = "Connectez-vous d'abord s'il vous plait !";
-        return view('note_found', compact('message'));
-    }
-})->name('accueil');
 
 
                 //     LES ACTIONS
 
 /*****************************clients************************************/
+Route::get('accueil', [EtudiantController::class,'accueil'])->name('accueil'); 
+
+
 Route::resource('config', AdminController::class); 
 Route::post('config/profil', [AdminController::class,'update'])->name('updateAdmin'); 
 Route::post('config/login', [AdminController::class,'loginAdmin'])->name('loginAdmin'); 
@@ -67,6 +60,7 @@ Route::post('config/tabledit_niveau', [NiveausController::class,'action'])->name
 Route::post('config/tabledit_Tps', [TPsController::class,'action'])->name('tabledit_Tp'); 
 Route::post('config/tabledit_Salle', [SallesController::class,'action'])->name('tabledit_Salle'); 
 Route::post('config/tabledit_Groupe', [GroupesController::class,'action'])->name('tabledit_Groupe'); 
+Route::post('config/tabledit_Notes', [NotesController::class,'action'])->name('tabledit_Notes'); 
 
 
 /***********************Gestion des tableaux éditables*****************************/
@@ -122,7 +116,7 @@ Route::resource('niveaux', NiveausController::class);
 
 Route::resource('Tps', TPsController::class); 
 
-// Route::post('niveaux/update/{id}', [FilieresController::class,'update'])->name('update_filieres'); 
+Route::post('infoTP/update', [TPsController::class,'update'])->name('update_TP'); 
 // Route::get('niveaux/destroy/{id}', [FilieresController::class,'destroy'])->name('destroy_filieres'); 
 
 
@@ -170,15 +164,16 @@ Route::get('sortiTP/{idTP}', [InscritsController::class,'sortiTP'])->name('sorti
 
 // Route::resource('configDetailG/{idNiveau}/{idTP}', AdminController::class); 
 /* Pour sortir d'un TP si on n'a pas encore de note*/
+Route::resource('configEval', NotesController::class); 
 Route::post('evaluation', [NotesController::class,'evaluation'])->name('evaluation'); 
-// Route::get('niveaux/destroy/{id}', [FilieresController::class,'destroy'])->name('destroy_filieres'); 
+Route::post('afficheNotes', [NotesController::class,'afficheNotes'])->name('afficheNotes'); 
 
 
 
 
 /*Info github*/
 // user=Justin-ic
-// Le Mot de passe pour fair un push: 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 
+// Le Mot de passe pour fair un push: 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  
 
 
 /*

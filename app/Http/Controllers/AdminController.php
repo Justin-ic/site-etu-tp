@@ -308,6 +308,13 @@ Je parcours la liste des inscrit où le id Niveau et id TP figure, pour chaque g
             'password' => ['required']
         ]);
 
+
+     $AdminTest = admin::first();
+     if ($AdminTest == NULL) {
+         return back()->withErrors(["Erreur_Connect" =>"Il n'y a pas d'administrateur d'abord. Enregistrez vous s'il vous plaît !"]);
+     }
+
+
      $AdminConnect = admin::where('email','=',$request->email)
                                     ->where('password','=',$request->password)->first();
         // $test = admin::first();
@@ -352,31 +359,38 @@ $LiesteEtuInscrit = Inscrit::with('etudiant')
                     ->where('AnneeUnivs_id','=',$anneActive->id)
                     ->where('Niveaus_id','=',$request->NiveauId)
                     ->where('TPs_id','=',$request->TpId)
-                    ->orderBy(Etudiant::select('Nom')->whereColumn('id','=','inscrits.Etudiants_id'),'ASC')->get();
+                    ->orderBy(Etudiant::select('Nom')->whereColumn('id','=','inscrits.Etudiants_id'),'ASC')
+                    ->get();
+
+
+if ($LiesteEtuInscrit->count() == 0) {
+    return redirect()->route('configGroupe.index')->with('status',"Désolé! Il n'y a pas d'étudiant !");
+}
 
 $cpt=0;
 $nbGr = 1;
 $GExist = Groupe::where('numeroG','=','1')->first();
-if ($GExist == NULL) {
-    Groupe::create(['numeroG' => '1']);
+$firstSalle = Salle::first();
+if ($GExist == NULL ) {
+    Groupe::create(['numeroG' => '1', 'Salles_id' => NULL]);
     $idG = Groupe::latest('id')->first();
-}else{$idG = $GExist->id; echo 'Comme le groupe est là son id='.$idG;}
+}else{$idG = $GExist->id; /*echo 'Comme le groupe est là son id='.$idG;*/}
 
 foreach ($LiesteEtuInscrit as  $inscrit) {
-    echo $inscrit->etudiant->Nom; echo '<pre>  </pre>';
+    // echo $inscrit->etudiant->Nom; echo '<pre>  </pre>';
     // dd($LiesteEtuInscrit);
     $cpt++;
     if (($cpt-1) == $request->nbGroupe) {
-        echo 'cpt='.$cpt.' <br>';
+        // echo 'cpt='.$cpt.' <br>';
         $cpt=1;
         $nbGr++;
-        echo 'nbGr = '.$nbGr.'<br>';
+        // echo 'nbGr = '.$nbGr.'<br>';
         $GExist = Groupe::where('numeroG','=',$nbGr)->first();
         // echo 'nbGr trouve = '.$GExist->numeroG.' <br>';
         if ($GExist == NULL) {
-            Groupe::create(['numeroG' => $nbGr]);
+            Groupe::create(['numeroG' => $nbGr, 'Salles_id' => NULL]);
             $idG = Groupe::latest('id')->first();
-            echo ' Comme il n est pas là je le crée <br>';
+            // echo ' Comme il n est pas là je le crée <br>';
         }else{$idG = $GExist->id; echo 'nbGr trouve = '.$GExist->numeroG.' <br>';}
     }
     $inscrit->update([

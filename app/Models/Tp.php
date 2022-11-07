@@ -16,5 +16,5 @@ class Tp extends Model
     }
     
 
-    protected $fillable = ['LibelleTp'];
+    protected $fillable = ['LibelleTp','texteInfo'];
 }

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB; // pour utiliser les requêtes personnalisées
 use Illuminate\Support\Facades\Http; // pour utiliser les requêtes personnalisées API Laravel http::get()
 use App\Models\Tp;
+use App\Models\infoTP;
+use App\Models\Niveau;
 
 
 class TPsController extends Controller
@@ -140,9 +142,26 @@ class TPsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        request()->validate([
+            // 'TpId' => 'required|numeric',
+            'LeTexte' => 'required|string'
+        ]);
+
+        $infoTP = infoTP::first();
+        if ($infoTP == NULL) {
+            infoTP::create([
+                'texteInfo' => "Les informations sur le TP en cours s'affichent ici !"
+            ]);
+        }
+
+        $texteOk = str_replace("**", "<br>", $request->LeTexte);
+        infoTP::first()->update([
+            'texteInfo' => $texteOk
+        ]);
+
+        return redirect()->route('Tps.index')->with('status',"Modiffications approtés avec succès !");
     }
 
     /**

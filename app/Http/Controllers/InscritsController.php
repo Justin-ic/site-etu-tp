@@ -193,6 +193,10 @@ class InscritsController extends Controller
 
         
 
+        if ($NiveauEtu == NULL) {
+            return back()->withErrors(["Erreur_Inscrit" =>"Désolé vous n'ête pas encore inscrit !"]); 
+        }        
+
         if ($ligneInscrit != NULL) {
             return back()->withErrors(["Erreur_Inscrit" =>"Vous vous êtes déjà inscrit dans ce TP !"]); 
         }else{

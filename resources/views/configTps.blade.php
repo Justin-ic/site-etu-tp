@@ -3,19 +3,23 @@
 @section('contenu')
 
 <!-- ****************************** GESTION DES FILIERES *********************************** -->
-<div class="row d-flex justify-content-center align-items-center">
+<div class="row d-flex justify-content-center align-items-center mt-4">
     <div class="col-12 col-md-9">
 
 
 <div class="card shadow mb-4 TableCard">
     <div class="card-header py-3">
         <div class="row d-flex">
-            <div class="col-sm-9 d-flex justify-content-start">
+            <div class="col-12 col-md-8 d-flex justify-content-start">
                 <h2 class="m-0 font-weight-bold text-primary">Gestion des <b>TPs</b></h2>
 
             </div>
-            <div class="col-sm-3 d-flex justify-content-end ms-auto p-2">
+            <div class="col-12 col-md-4 d-flex justify-content-end ms-auto p-2">
                 <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary mx-4" data-bs-toggle="modal" data-bs-target="#ajoutInfoTPModal">
+                    <i class="fas fa-file-alt"></i>
+                    Info TP
+                </button>
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ajoutTPModal">
                     <i class="fas fa-plus "></i>
                     Ajouter TP
@@ -26,17 +30,6 @@
     <div class="card-body">
 
 
-<!-- 
-  // ****************Erreur lié au libelle***************
-@ if ($errors->any())
-<div class="alert alert-danger d-flex align-items-center">
-    <ul id="ul_alert">
-    @ foreach ($errors->get('LibelleFiliere') as $error)
-    <li>{$error}</li>
-    @ endforeach
-    </ul>
-</div>
-@ endif -->
 
 @if(count($errors) > 0)
 <div id="ul_alert_error">
@@ -45,7 +38,7 @@
           @foreach ($errors->all() as $error)
           <li>{{$error}}</li>
           <script type="text/javascript">setTimeout(function() {
-          document.getElementById('ul_alert_error').innerHTML = "";},5000);</script>
+          document.getElementById('ul_alert_error').innerHTML = "";},10000);</script>
           @endforeach
       </ul>
   </div>
@@ -54,6 +47,26 @@
 <div id="ul_alert">
 
 </div>
+
+<div class="row mt-4">
+    <div class="col-12 d-flex justify-content-center">
+     <?php if (!isset($_SESSION)) { session_start(); } ?>
+     @if (session('status')) 
+     <div id="ul_alert_error" class=" col-12 col-md-8 d-flex justify-content-center ">
+        <div class="MCenter h1_alert alert alert-danger">
+           {{session('status')}}
+           <script type="text/javascript">setTimeout(function() {
+           document.getElementById('ul_alert_error').innerHTML = "";},10000);</script>
+        </div>
+     </div>
+     @endif
+
+    </div>
+</div>
+
+
+
+
 
 <div class="table-responsive">
     @csrf
@@ -158,6 +171,55 @@ guichet_personnel*/
 
 
 
+
+
+
+
+
+
+
+<!-- Modal Ajout Infos TP-->
+<div class="modal fade"  id="ajoutInfoTPModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" >
+    <div class="modal-content">
+
+    <form action="{{route('update_TP')}}" method="POST">
+            @csrf
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modiffier les informations sur TP</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+<!--         <div class="form-group">
+          <b>TP:</b>
+          <select class="form-control" required name="TpId" id="modale_etat_anne">
+            <option value="" >--Choisir--</option>
+
+            < ?php foreach ($Liste_Tp as $key => $LeTP): ?>
+              <option value="< ?=$LeTP->id ?>">< ?=$LeTP->LibelleTp ?></option>
+            < ?php endforeach ?>
+          </select>
+        </div> -->   
+        <b><u>NB:</u></b> Vous pouvez saisir le texte sur un autre fichier et coller le rendu ici. <br>
+        <b><u>Remarque:</u></b> Pour faire un retours à la ligne, saisissez deux étoilles à la place. Ex: <br>pararaphe 1 <br>
+        **<br>
+        pararaphe 2
+        <div class="form-group mt-4">
+            <b>Votre text:</b>
+            <textarea type="textarea" name="LeTexte"  class="form-control " required id=""></textarea>
+        </div>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fremer</button>
+        <button type="submit" class="btn btn-primary">Valider</button>
+      </div>
+    </form><!-- fin form -->
+    </div>
+  </div>
+</div>
 
 
 

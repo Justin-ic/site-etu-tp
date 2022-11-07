@@ -32,7 +32,8 @@ return new class extends Migration
             $table->foreign('AnneeUnivs_id')->references('id')->on('annee_univs')->onDelete('cascade')->onUpdate('cascade'); 
             $table->foreign('Niveaus_id')->references('id')->on('niveaux')->onDelete('cascade')->onUpdate('cascade'); 
             $table->foreign('TPs_id')->references('id')->on('tps')->onDelete('cascade')->onUpdate('cascade'); 
-            $table->foreign('Groupes_id')->references('id')->on('groupes')->onDelete('cascade')->onUpdate('cascade'); 
+            $table->foreign('Groupes_id')->references('id')->on('groupes');
+            // ->onDelete('cascade')->onUpdate('cascade'); 
             $table->timestamps();
         });
     }

@@ -3,7 +3,7 @@
 @section('contenu')
 
 <!-- ****************************** GESTION DES NIVEAUX *********************************** -->
-<div class="row d-flex justify-content-center align-items-center">
+<div class="row d-flex justify-content-center align-items-center mt-4">
     <div class="col-12 col-md-9">
 
 
@@ -152,7 +152,6 @@ guichet_personnel */
                 <?php foreach ($Liste_Filiere as $key => $Filiere): ?>
                 <option value="<?=$Filiere->id ?>"><?=$Filiere->LibelleFiliere ?></option>
                 <?php endforeach ?>
-                
             </select>
         </div>
 
@@ -336,7 +335,7 @@ function AfficheAlert(message){
     document.getElementById('ul_alert').innerHTML = alertMsg;
     setTimeout(function() {
      document.getElementById('ul_alert').innerHTML = "";
-    },5000);
+    },10000);
 }
 
 

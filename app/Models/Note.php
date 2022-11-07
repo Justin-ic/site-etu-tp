@@ -14,5 +14,5 @@ class Note extends Model
         return $this->belongsTo(Inscrit::class,'Inscrits_id'); // Relation One to Many: niveau est le fils et filière le père
     } 
 
-    protected $fillable = ['Inscrits_id', 'Note', 'Date'];
+    protected $fillable = ['Inscrits_id', 'Note'];
 }

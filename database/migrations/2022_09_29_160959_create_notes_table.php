@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('Inscrits_id'); // Relation One to Many: pour un groupe, on a plusieurs etudiants inscrits 
             $table->integer('Note');
-            $table->date('Date');
 
             // définition des relations
             $table->foreign('Inscrits_id')->references('id')->on('inscrits')->onDelete('cascade')->onUpdate('cascade'); 

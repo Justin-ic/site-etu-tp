@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Http; // pour utiliser les requêtes personnalis�
 use App\Models\Etudiant;
 use App\Models\AnneeUniv;
 use App\Models\Inscrit;
+use App\Models\infoTP;
+use App\Models\Note;
 use PDF;
 
 class EtudiantController extends Controller
@@ -86,6 +88,19 @@ class EtudiantController extends Controller
                 // dd($etudiantConnect->id);
                 if (!isset($_SESSION)) { session_start(); }
                 $_SESSION['Etudiant'] = $etudiantConnect;
+
+
+            $Anne_Univ = AnneeUniv::where('etat','=','Active')->first();
+            $idInscrit = Inscrit::where('Etudiants_id','=',$etudiantConnect->id)
+            ->where('AnneeUnivs_id','=',$Anne_Univ->id)->first();
+            if ($idInscrit != NULL) {
+
+                $ListeNotesEtu = Note::where('Inscrits_id','=',$idInscrit->id)->get();
+                if ($ListeNotesEtu->count() > 0) {
+                    $_SESSION['ListeNotesEtu'] = $ListeNotesEtu;
+                }
+            }
+
             return redirect()->route('accueil')->with('message');
     }
 
@@ -102,6 +117,7 @@ class EtudiantController extends Controller
     {
         //
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -180,6 +196,56 @@ class EtudiantController extends Controller
     }
 
     
+
+
+
+
+
+
+
+
+    /**
+     * Accueil
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function accueil()
+    {
+        if (!isset($_SESSION)) { session_start(); }
+
+        if (isset($_SESSION['Admin']) || isset($_SESSION['Etudiant'])) {
+            $infoTP = infoTP::first();
+            if ($infoTP == NULL) {
+                infoTP::create([
+                    'texteInfo' => "Les informations sur le TP en cours s'affichent ici !"
+                ]);
+            $infoTP = infoTP::first();
+            }
+
+            // dd($infoTP->texteInfo);
+            return view('accueil',compact('infoTP'));  
+        }else{
+            $message = "Connectez-vous d'abord s'il vous plait !";
+            return view('note_found', compact('message'));
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      * Remove the specified resource from storage.
      *
@@ -199,6 +265,18 @@ class EtudiantController extends Controller
             if (!isset($_SESSION)) { session_start(); }
             $_SESSION['Etudiant'] = $etudiantConnect;
 
+            $Anne_Univ = AnneeUniv::where('etat','=','Active')->first();
+            $idInscrit = Inscrit::where('Etudiants_id','=',$etudiantConnect->id)
+            ->where('AnneeUnivs_id','=',$Anne_Univ->id)->first();
+
+            if ($idInscrit != NULL) {
+                $ListeNotesEtu = Note::where('Inscrits_id','=',$idInscrit->id)->get();
+                if ($ListeNotesEtu->count() > 0) {
+                    $_SESSION['ListeNotesEtu'] = $ListeNotesEtu;
+                }
+            }
+            
+
              return redirect()->route('accueil');
         } else {
             return back()->withErrors(["Erreur_Connect" =>"Nom d'utilisateur ou mot de passe incorect !"]);
@@ -209,3 +287,26 @@ class EtudiantController extends Controller
 
 
 }
+
+
+
+/*
+
+
+Jusque là, on a une seul table dans la BD; on va ajouter une deuxième et établir une relation entre elles. À la table clients, ajoutons la table entreprises. On dira qu’une entreprise peut avoir plusieurs clients et qu’un client peut appartenir à une et une entreprise. Donc on met la clef id) de entreprises dans clients comme clef secondaire. Voila le résultat. 
+******
+Jusque là, on a une seul table dans la BD; on va ajouter une deuxième et établir une relation entre elles. À la table clients, ajoutons la table entreprises. On dira qu’une entreprise peut avoir plusieurs clients et qu’un client peut appartenir à une et une entreprise. Donc on met la clef id) de entreprises dans clients comme clef secondaire. Voila le résultat.  
+****
+
+Jusque là, on a une seul table dans la BD; on va ajouter une deuxième et établir une relation entre elles. À la table clients, ajoutons la table entreprises. On dira qu’une entreprise peut avoir plusieurs clients et qu’un client peut appartenir à une et une entreprise. Donc on met la clef id) de entreprises dans clients comme clef secondaire. Voila le résultat. 
+**
+Jusque là, on a une seul table dans la BD; on va ajouter une deuxième et établir une relation entre elles. À la table clients, ajoutons la table entreprises. On dira qu’une entreprise peut avoir plusieurs clients et qu’un client peut appartenir à une et une entreprise. Donc on met la clef id) de entreprises dans clients comme clef secondaire. Voila le résultat.  
+**
+
+Jusque là, on a une seul table dans la BD; on va ajouter une deuxième et établir une relation entre elles. À la table clients, ajoutons la table entreprises. On dira qu’une entreprise peut avoir plusieurs clients et qu’un client peut appartenir à une et une entreprise. Donc on met la clef id) de entreprises dans clients comme clef secondaire. Voila le résultat. 
+******
+Jusque là, on a une seul table dans la BD; on va ajouter une deuxième et établir une relation entre elles. À la table clients, ajoutons la table entreprises. On dira qu’une entreprise peut avoir plusieurs clients et qu’un client peut appartenir à une et une entreprise. Donc on met la clef id) de entreprises dans clients comme clef secondaire. Voila le résultat.  
+**
+
+
+*/
