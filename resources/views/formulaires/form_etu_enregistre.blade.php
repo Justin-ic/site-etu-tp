@@ -31,19 +31,7 @@
 <?php /*print_r($_SESSION) ; session_destroy();*/ ?>
 	<h1 class="MCenter connexionTitreInitBD">ENREGISTREMENT ETUDIANT</h1>
 
-@if(count($errors) > 0)
-<div id="ul_alert_error">
-    <div class="alert alert-danger d-flex align-items-center">
-        <ul id="ul_alert">
-          @foreach ($errors->all() as $error)
-          <li>{{$error}}</li>
-          <script type="text/javascript">setTimeout(function() {
-          document.getElementById('ul_alert_error').innerHTML = "";},10000);</script>
-          @endforeach
-      </ul>
-  </div>
-</div>
-@endif
+
         <div class="row">
             <div class="col-12 d-flex justify-content-center">
                <img src="{{ asset('images/logoUna.png') }}" title="Logo UNA" style="width: 200px;" > 
@@ -62,6 +50,19 @@
     </div>
     <div class="card-body">
 
+@if(count($errors) > 0)
+<div id="ul_alert_error">
+    <div class="alert alert-danger d-flex align-items-center">
+        <ul id="ul_alert">
+          @foreach ($errors->all() as $error)
+          <li>{{$error}}</li>
+          <script type="text/javascript">setTimeout(function() {
+          document.getElementById('ul_alert_error').innerHTML = "";},10000);</script>
+          @endforeach
+      </ul>
+  </div>
+</div>
+@endif
 
         <form action="{{route('Store_etudiant')}}" method="POST">
             @csrf
@@ -101,9 +102,14 @@
             </div>
             <input required type="hidden" value="etudiant" name="type">
 
-            <!-- <button type="submit" class="btn btn-success">Valider</button>  -->
-            <div class="d-grid gap-2 col-6 mx-auto">
-              <button type="submit" class="btn btn-success btnValide" type="button">Valider</button>
+            <div class="row">
+                <!-- <button type="submit" class="btn btn-success">Valider</button>  -->
+                <div class=" col-12 col-sm-6">              
+                  <a href="{{route('connexion')}}"><button type="button" class="btn btn-primary btnSuivRetour">Retour</button></a>
+              </div>
+              <div class="d-grid gap-2 col-12 col-sm-6 ">
+                  <button type="submit" class="btn btn-success  btnSuivRetour" type="button">Valider</button>
+              </div>
             </div>
         </form>
             
@@ -123,3 +129,23 @@
 </html> -->
 
 
+<!-- 
+
+
+
+
+
+
+
+    .col- (extra small devices - screen width less than 576px)
+    .col-sm- (small devices - screen width equal to or greater than 576px)
+    .col-md- (medium devices - screen width equal to or greater than 768px)
+    .col-lg- (large devices - screen width equal to or greater than 992px)
+    .col-xl- (xlarge devices - screen width equal to or greater than 1200px)
+
+
+
+
+
+
+ -->

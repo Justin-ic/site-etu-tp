@@ -26,7 +26,7 @@ class GroupesController extends Controller
         $testSalle = Salle::first();
         $testNiveau = Niveau::first();
         $testTp = Tp::first();
-        if ($testAnne == NULL || $testGroupe == NULL || $testSalle == NULL || $testNiveau == NULL || $testTp == NULL) {
+        if ($testAnne == NULL || $testSalle == NULL || $testNiveau == NULL || $testTp == NULL) {
             return back()->withErrors(["ExistGroupe" =>"Désolé vous devez suivre les étapes indiquées !"]);
         }
 
