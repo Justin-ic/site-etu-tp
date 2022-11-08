@@ -58,7 +58,7 @@ if ($anneActive == NULL) {
 } else if($salleExiste == NULL){
     $configNonTerminer = "Etape 5: Configurez les salles de TPs s'il vous plait !";
 } else if($groupeExiste == NULL){
-    $configNonTerminer = "Etape 6: Configurez les groupes pour terminer s'il vous plait ! Vous pourez le faire une fois que vous aurez des étudiants inscrits.";
+    $configNonTerminer = "Etape 6: Configurez les groupes pour terminer s'il vous plait ! <br>Vous pourez le faire une fois que vous aurez des étudiants inscrits.";
 } 
 
 
