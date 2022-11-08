@@ -156,7 +156,7 @@ class EtudiantController extends Controller
             'passConfirme' => ['required','same:password']
         ]);
 
-        $nceExiste = Etudiant::where('nce','=',$request->nce)
+        $nceExiste = Etudiant::where('NCE','=',$request->nce)
                                ->where('id','!=',$request->idEtu)
                                ->first();
 
