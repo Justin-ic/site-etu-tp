@@ -4,7 +4,7 @@
 
 <?php if (!isset($_SESSION)) { session_start(); } ?>
 
-<div id="carouselExampleSlidesOnly" class="carousel slide div_carousel " data-bs-ride="carousel" >	
+<div id="carouselExampleSlidesOnly" class="carousel slide div_carousel d-flex justify-content-center" data-bs-ride="carousel" >	
 <div class="row  col-12 d-flex justify-content-center align-items-end text_accueil">
 
 

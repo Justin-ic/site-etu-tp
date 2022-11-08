@@ -173,7 +173,7 @@ Route::post('afficheNotes', [NotesController::class,'afficheNotes'])->name('affi
 
 /*Info github*/
 // user=Justin-ic
-// Le Mot de passe pour fair un push: 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  
+// Le Mot de passe pour fair un push: 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  
 
 
 /*

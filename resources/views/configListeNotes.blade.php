@@ -28,7 +28,7 @@
     <div class="card-header py-3">
         <div class="row d-flex">
             <div class="col-sm-9 d-flex justify-content-start">
-                <h2 class="m-0 font-weight-bold text-primary"><u>Notes de:</u> {{$LeNiveau->LibelleNiveau}} => {{$LeNiveau->filiere->LibelleFiliere}} => {{$LeTP->LibelleTp}} =><b>G{{$LeGroupe->numeroG}} </b></h2>
+                <h2 class="m-0 font-weight-bold text-primary"><u>Notes de:</u> {{$LeNiveau->LibelleNiveau}} <b>=></b> {{$LeNiveau->filiere->LibelleFiliere}} <b>=></b> {{$LeTP->LibelleTp}} <b>=></b> <b>G{{$LeGroupe->numeroG}} </b></h2>
             </div>
             <div class="col-sm-3 d-flex justify-content-end ms-auto p-2">
                 <a href="{{ route('config.index') }}">
@@ -86,7 +86,7 @@
 			<!-- @ dd($LigneInsscrit->etudiant->Nom); -->
 			<tr>
                 <td style="display: none;">{{$LigneInsscrit->id}}</td>
-				<td><?=$cpt++?></td>
+				<td class="MCenter"><?=$cpt++?></td>
 				<td>{{$LigneInsscrit->etudiant->Nom}}</td>
 				<td>{{$LigneInsscrit->etudiant->Prenom}}</td>
 

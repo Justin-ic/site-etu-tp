@@ -257,6 +257,14 @@ class NotesController extends Controller
             return view('note_found', compact('message'));
         }
 
+        request()->validate([
+            'Num_G' => ['required','numeric'], 
+            'idNiveau' => 'required|numeric',
+            'tpId' => 'required|numeric'
+        ]);
+        $idGroupe = Groupe::where('numeroG','=',$request->Num_G)->first();
+
+
         /*Je vérifie si il n'a pas été noté aujourd'hui*/
         /*Il a droit à une seul note par jour*/
         /*ainsi je prend un étudiant du groupe, s'il a eu une note aujourd'hui, j'arrête*/
@@ -264,7 +272,7 @@ class NotesController extends Controller
         $unEtuDuGroupe = Inscrit::where('AnneeUnivs_id','=',$anneActive->id)
                     ->where('Niveaus_id','=',$request->idNiveau)
                     ->where('TPs_id','=',$request->tpId)
-                    ->where('Groupes_id','=',$request->id_G)
+                    ->where('Groupes_id','=',$idGroupe->id)
                     ->first();
 
         $dd = date("Y-m-d"); 
@@ -275,11 +283,7 @@ class NotesController extends Controller
             return redirect()->route('config.index')->with("status","Il semble que ce groupe à déjà été noté aujourd'hui. Rendez-vous dans la liste des notes pour la modification manuelle");
         }
 
-        request()->validate([
-            'id_G' => ['required','numeric'], 
-            'idNiveau' => 'required|numeric',
-            'tpId' => 'required|numeric'
-        ]);
+
 
 
             
@@ -292,12 +296,12 @@ class NotesController extends Controller
                     ->where('AnneeUnivs_id','=',$anneActive->id)
                     ->where('Niveaus_id','=',$request->idNiveau)
                     ->where('TPs_id','=',$request->tpId)
-                    ->where('Groupes_id','=',$request->id_G)
+                    ->where('Groupes_id','=',$idGroupe->id)
                     ->get();
 
         $LeNiveau = Niveau::with('filiere')->find($request->idNiveau);
         $LeTP = Tp::find($request->tpId);
-        $LeGroupe = Groupe::find($request->id_G);
+        $LeGroupe = Groupe::find($idGroupe->id);
 
         return view('evaluerGroupe',compact('ListeEtuInscrit','LeNiveau' ,'LeTP' ,'LeGroupe' ));   
     }
@@ -320,7 +324,7 @@ class NotesController extends Controller
         request()->validate([
             'idNiveau_Notes' => ['required','numeric'], 
             'tpId_Notes' => 'required|numeric',
-            'id_G_Notes' => 'required|numeric'
+            'Num_G_Notes' => 'required|numeric'
         ]);
         if (!isset($_SESSION)) { session_start(); }
 
@@ -329,14 +333,18 @@ class NotesController extends Controller
             return view('note_found', compact('message'));
         }
 
+        $idGroupe = Groupe::where('numeroG','=',$request->Num_G_Notes)->first();
         /*Je vérifie si ce groupe a eu une note au moins cette année*/
         /*Si le groupe n'a pas de note, je me retourne */
         $anneActive = AnneeUniv::where('etat','=','Active')->first();
         $unEtuDuGroupe = Inscrit::where('AnneeUnivs_id','=',$anneActive->id)
                     ->where('Niveaus_id','=',$request->idNiveau_Notes)
                     ->where('TPs_id','=',$request->tpId_Notes)
-                    ->where('Groupes_id','=',$request->id_G_Notes)
+                    ->where('Groupes_id','=',$idGroupe->id)
                     ->first();
+
+/*echo " request->Num_G_Notes=".$idGroupe->id." request->tpId_Notes=".$request->tpId_Notes." request->idNiveau_Notes=".$request->idNiveau_Notes;
+dd($unEtuDuGroupe);*/
 
         $dd = date("Y-m-d"); 
         $dejaNote = Note::where('Inscrits_id', '=', $unEtuDuGroupe->id)->first();
@@ -346,7 +354,7 @@ class NotesController extends Controller
 
         $_SESSION['Niveaus_id'] = $request->idNiveau_Notes;
         $_SESSION['TPs_id'] = $request->tpId_Notes;
-        $_SESSION['Groupes_id'] = $request->id_G_Notes;
+        $_SESSION['Groupes_id'] = $idGroupe->id;
 
         return redirect()->route('configEval.index');
 

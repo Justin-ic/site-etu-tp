@@ -92,6 +92,9 @@ body{
 a{
     text-decoration: none; color: inherit; 
 }
+a::hover{
+    color: inherit; 
+}
 .a_white:hover{
     color: white; 
     font-size: 3rem;
@@ -354,6 +357,18 @@ input .unTest{
 }
 
 
+.btnDeconnect {
+    /*border-radius: 30px;*/
+    /*padding: 10px;*/
+    color: red;
+}
+
+.textBtnDeconnect {
+    color: black;
+    margin-left: 5px;
+}
+
+
 .fa-grin-stars {
     color: #ffa700;
     font-size: calc(0.6rem + 2.5vw);
@@ -375,6 +390,20 @@ th, td{
     font-size: calc(0.8rem + 0.8vw);
 
 }
+
+
+
+@media screen and (max-width: 550px) {
+  body {
+    background-color: red;
+  }
+  .img_carousel{
+    height: 300px;
+  }
+}
+
+
+
 
 /*
 <script type="text/javascript">

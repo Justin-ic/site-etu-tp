@@ -98,10 +98,16 @@
     </div>
 
 
-    <div class=" col-12 d-flex justify-content-center">
-       <button type="submit" class="btn btn-success d-grid gap-2 col-12 col-md-8 a_text_accueil">
-         <h3 class="MCenter h1_accueilx">Valider</h3>
-       </button>
+    <div class="row d-flex justify-content-center">
+
+        <div class=" col-6">              
+          <a href="{{route('config.index')}}"><button type="button" class="btn btn-primary btnSuivRetour">Retour</button></a>
+        </div>
+
+        <div class=" col-6 ">
+          <button id="suivant" class="btn btn-success btnSuivRetour" type="submit" >Valider</button>
+        </div>
+
     </div>
 
 </form>

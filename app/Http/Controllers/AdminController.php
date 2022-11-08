@@ -32,8 +32,11 @@ class AdminController extends Controller
 /*$configNonTerminer = "Configuration mal faite: Il esxiste des étudiants inscrits qui n'ont pas de groupe !";
 return view('configurationEnCours',compact('configNonTerminer'));*/
 
+/*
 $etatConfig = admin::where('etatConfig', '=',1)->first();
-if ($etatConfig == NULL) {
+if ($etatConfig == NULL) {}
+
+*/
     
         $anneActive = AnneeUniv::first();
         $FiliereExiste = Filiere::first();
@@ -73,7 +76,7 @@ if ($anneActive == NULL) {
         $adminOK->update([
         'etatConfig' => 1
            ]);
-} /*Fin vérification etat config*/
+/* } Fin vérification etat config*/
 
 
 
@@ -369,6 +372,12 @@ if ($LiesteEtuInscrit->count() == 0) {
 
 
 /* Je crée les groupe si ce n'est pas encore le cas*/
+$salle1 = Salle::first();
+
+if ($salle1 == NULL) {
+    return redirect()->route('configGroupe.index')->with('status',"Créez au moins une salle de TP pour continer.");
+}
+
 $reste = ($LiesteEtuInscrit->count()%$request->nbGroupe);
 $nombreGroupe= intval($LiesteEtuInscrit->count()/$request->nbGroupe);
 if ($reste!=0) {
@@ -378,7 +387,7 @@ for ($i=1; $i <=$nombreGroupe ; $i++) {
     $GExist = Groupe::where('numeroG','=',$i)->first();
     if ($GExist == NULL ) {
         // echo "Groupe non créer je le crée <br> <br>";
-        Groupe::create(['numeroG' => $i, 'Salles_id' => NULL]);
+        Groupe::create(['numeroG' => $i, 'Salles_id' => $salle1->id]);
     }else{/*echo "Je passe  <br> <br>";*/}
 }
 
@@ -513,8 +522,6 @@ Je parcours la liste des inscrit où le id Niveau et id TP figure, pour chaque g
         }
 
 
-
-
         $LEniveau = Niveau::with('filiere')->find($idNiveau);
         $LeTP = Tp::find($idTP);
 
@@ -626,3 +633,20 @@ si tu as au moins une note dans l'année en cours dans le TP donnée, tu ne peut
 
 
 }
+
+
+/*
+
+Les informations sur le TP en cours s'affichent ici ! ****
+
+-On doit être présent au TP obligatoirement. **
+-Deux séances de TP ratés vous conduit à l’échec.**
+-Soyez motiver car il y a des bonus dans l'air. **
+
+
+NB : N’oubliez pas de prendre note à chaque fois car lors de la composition, on vous demandera ce que vous avez appris au TP.**
+
+
+
+
+*/

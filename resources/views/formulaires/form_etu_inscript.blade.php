@@ -68,13 +68,13 @@
     <div class="row d-flex justify-content-center">
 
 
-    <div class=" col-6">              
-      <a href="{{route('accueil')}}"><button type="button" class="btn btn-primary btnSuivRetour">Retour</button></a>
-    </div>
+        <div class=" col-6">              
+          <a href="{{route('accueil')}}"><button type="button" class="btn btn-primary btnSuivRetour">Retour</button></a>
+      </div>
 
-  <div class=" col-6 ">
-      <button id="suivant" class="btn btn-success btnSuivRetour" type="submit" >Valider</button>
-  </div>
+      <div class=" col-6 ">
+          <button id="suivant" class="btn btn-success btnSuivRetour" type="submit" >Valider</button>
+      </div>
 
   </div>
 </form>

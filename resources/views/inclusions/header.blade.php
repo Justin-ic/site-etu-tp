@@ -46,13 +46,18 @@
 <?php  if (!isset($_SESSION)) {session_start();} ?>
   <?php if(isset($_SESSION['Admin'])): ?>
       <a href="{{route('admin')}}" title="Je me déconnecte">
-        <span class="d-flex justify-content-start profil_header"><b><?=$_SESSION['Admin']->Nom?> <?=$_SESSION['Admin']->Prenom[0]?></b></span>
+        <span class="d-flex justify-content-start profil_header fas fa-power-off btnDeconnect">
+          <span class=" textBtnDeconnect"> 
+            <b><?=$_SESSION['Admin']->Nom?> <?=$_SESSION['Admin']->Prenom[0]?></b>
+          </span>
+        </span>
       </a>
   <?php endif ?>
 
 
   <?php if (isset($_SESSION['Etudiant'])): ?>
       <a href="{{route('connexion')}}" title="Je me déconnecte">
+        <span class="fas fa-power-off btnDeconnect"></span>
         <span class="d-flex justify-content-start profil_header"><b><?=$_SESSION['Etudiant']->Nom?> <?=$_SESSION['Etudiant']->Prenom[0]?></b></span>
       </a>
   <?php endif ?>

@@ -261,7 +261,7 @@
 
             <div class="form-group">
                 <b>Groupe:</b>
-                <select class="form-control  " id="id_G" required name="id_G" id="modale_etat_anne" >
+                <select class="form-control  " id="Num_G" required name="Num_G" id="modale_etat_anne" >
                     <option value="" >--Choisir--</option>
                     
                 </select>
@@ -313,7 +313,7 @@
 
             <div class="form-group">
                 <b>Groupe:</b>
-                <select class="form-control  " id="id_G_Notes" required name="id_G_Notes" id="modale_etat_anne" >
+                <select class="form-control  " id="Num_G_Notes" required name="Num_G_Notes" id="modale_etat_anne" >
                     <option value="" >--Choisir--</option>
                     
                 </select>
@@ -362,10 +362,10 @@ exampleModal.addEventListener('show.bs.modal', event => {
   console.log(data);
   console.log(' idNiveau='+data.idNiveau+' niveau='+data.niveau+' tpId='+data.tpId+' TpLibelle='+data.TpLibelle+' NbG='+data.NbG);
 
-  document.getElementById('id_G').innerHTML = "";
+  document.getElementById('Num_G').innerHTML = "";
     var i;
     for (i = 1; i <= data.NbG; i++) {
-        var leSellect = document.getElementById('id_G');
+        var leSellect = document.getElementById('Num_G');
         leSellect.options[leSellect.options.length]= new Option('Groupe '+i,i);
     }
     document.getElementById('niveau').value = data.niveau;
@@ -392,10 +392,10 @@ exampleModalNotes.addEventListener('show.bs.modal', event => {
   console.log(data);
  /* console.log(' idNiveau='+data.idNiveau+' niveau='+data.niveau+' tpId='+data.tpId+' TpLibelle='+data.TpLibelle+' NbG='+data.NbG);*/
 
-  document.getElementById('id_G_Notes').innerHTML = "";
+  document.getElementById('Num_G_Notes').innerHTML = "";
     var i;
     for (i = 1; i <= data.NbG; i++) {
-        var leSellect = document.getElementById('id_G_Notes');
+        var leSellect = document.getElementById('Num_G_Notes');
         leSellect.options[leSellect.options.length]= new Option('Groupe '+i,i);
     }
     document.getElementById('niveau_Notes').value = data.niveau;
