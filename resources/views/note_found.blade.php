@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>404 Custom Error Page</title>
     <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}"/>
-    <link rel="stylesheet" href="http://localhost/site-etu-tp/public/styles/bootstrap/bootstrap5_2_1.min.css">
+    <link rel="stylesheet" href="{{ asset('styles/bootstrap/bootstrap5_2_1.min.css') }}">
+    <!-- http://localhost/site-etu-tp/public/styles/bootstrap/bootstrap5_2_1.min.css -->
 </head>
 <body class="alert alert-danger">
     <div class="container-fluid">
