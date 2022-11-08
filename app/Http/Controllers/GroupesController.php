@@ -27,7 +27,7 @@ class GroupesController extends Controller
         $testNiveau = Niveau::first();
         $testTp = Tp::first();
         $testlatest = latest::first();
-        if ($testAnne == NULL || $testGroupe == NULL || $testSalle == NULL || $testNiveau == NULL || $testTp == NULL || $testlatest == NULL || ) {
+        if ($testAnne == NULL || $testGroupe == NULL || $testSalle == NULL || $testNiveau == NULL || $testTp == NULL || $testlatest == NULL ) {
             return back()->withErrors(["ExistGroupe" =>"Désolé vous devez suivre les étapes indiquées !"]);
         }
 
