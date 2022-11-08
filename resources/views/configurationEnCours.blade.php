@@ -13,9 +13,36 @@
          Configurez chaque étape pour que le système soit opérationnel.
      </div>
  </div>
-<br><br>
 
-    <div class="row d-flex justify-content-center">
+    <div class="row mt-4">
+        <div class="col-12 d-flex justify-content-center">
+           <?php if (!isset($_SESSION)) { session_start(); } ?>
+           @if (session('status')) 
+           <div id="ul_alert_error" class=" col-12 col-md-8 d-flex justify-content-center ">
+                <div class="MCenter h1_alert alert alert-danger">
+                 {{session('status')}}
+                 <script type="text/javascript">setTimeout(function() {
+                 document.getElementById('ul_alert_error').innerHTML = "";},10000);</script>
+                </div>
+            </div>
+             @endif
+             @if(count($errors) > 0)
+             <div id="ul_alert_error">
+                <div class="alert alert-danger d-flex align-items-center">
+                    <ul id="ul_alert">
+                      @foreach ($errors->all() as $error)
+                      <li>{{$error}}</li>
+                      <script type="text/javascript">setTimeout(function() {
+                      document.getElementById('ul_alert_error').innerHTML = "";},10000);</script>
+                      @endforeach
+                  </ul>
+              </div>
+            </div>
+            @endif
+        </div>
+    </div>
+
+    <div class="row d-flex justify-content-center mt-4">
 
 
         <a href="{{route('annee_univs.index')}}" type="" class="col-md-4 col-12  confid_a">
