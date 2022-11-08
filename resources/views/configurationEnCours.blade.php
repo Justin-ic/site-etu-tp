@@ -90,7 +90,7 @@
 
 <div id="ul_alert_success" class="col-6 mt-4"> 
     <div class="alert d-flex align-items-center justify-content-center alert_success">
-        {!$configNonTerminer!}
+        {!! $configNonTerminer !!}
   </div>
 </div>
 
