@@ -729,8 +729,8 @@ function AfficheBilan(){
            }
         };
 
-        url = "https://una-scolarite.herokuapp.com/APIMarqueurs";
         url = "http://localhost/site-etu-tp/public/configFiltreG/"+idNiveau+"/"+idTP;
+        url = "https://site-etu-tp.herokuapp.com/configFiltreG/"+idNiveau+"/"+idTP;
         // alert(url);
         xhttp.open("GET",url , true);
         xhttp.send();

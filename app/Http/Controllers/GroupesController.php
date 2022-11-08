@@ -21,6 +21,13 @@ class GroupesController extends Controller
      */
     public function index()
     {
+        if (!isset($_SESSION)) { session_start(); }
+        
+        if (!isset($_SESSION['Admin'])) {
+            $message = "Connectez-vous d'abord s'il vous plait !";
+            return view('note_found', compact('message'));
+        }
+        
         $testAnne = AnneeUniv::first();
         $testGroupe = Groupe::first();
         $testSalle = Salle::first();
