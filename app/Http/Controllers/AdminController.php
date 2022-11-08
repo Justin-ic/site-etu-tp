@@ -367,40 +367,44 @@ if ($LiesteEtuInscrit->count() == 0) {
     return redirect()->route('configGroupe.index')->with('status',"Désolé! Il n'y a pas d'étudiant !");
 }
 
-$cpt=0;
-$nbGr = 1;
-$GExist = Groupe::where('numeroG','=','1')->first();
-$firstSalle = Salle::first();
-if ($GExist == NULL ) {
-    Groupe::create(['numeroG' => '1', 'Salles_id' => NULL]);
-    $idG = Groupe::latest('id')->first();
-}else{$idG = $GExist->id; /*echo 'Comme le groupe est là son id='.$idG;*/}
 
-foreach ($LiesteEtuInscrit as  $inscrit) {
-    // echo $inscrit->etudiant->Nom; echo '<pre>  </pre>';
-    // dd($LiesteEtuInscrit);
-    $cpt++;
-    if (($cpt-1) == $request->nbGroupe) {
-        // echo 'cpt='.$cpt.' <br>';
-        $cpt=1;
-        $nbGr++;
-        // echo 'nbGr = '.$nbGr.'<br>';
-        $GExist = Groupe::where('numeroG','=',$nbGr)->first();
-        // echo 'nbGr trouve = '.$GExist->numeroG.' <br>';
-        if ($GExist == NULL) {
-            Groupe::create(['numeroG' => $nbGr, 'Salles_id' => NULL]);
-            $idG = Groupe::latest('id')->first();
-            // echo ' Comme il n est pas là je le crée <br>';
-        }else{$idG = $GExist->id; echo 'nbGr trouve = '.$GExist->numeroG.' <br>';}
-    }
-    $inscrit->update([
-        'Groupes_id' => $idG
-    ]);
-    // dd('Stop');
+/* Je crée les groupe si ce n'est pas encore le cas*/
+$reste = ($LiesteEtuInscrit->count()%$request->nbGroupe);
+$nombreGroupe= intval($LiesteEtuInscrit->count()/$request->nbGroupe);
+if ($reste!=0) {
+    $nombreGroupe= $nombreGroupe +1;
+}
+for ($i=1; $i <=$nombreGroupe ; $i++) { 
+    $GExist = Groupe::where('numeroG','=',$i)->first();
+    if ($GExist == NULL ) {
+        // echo "Groupe non créer je le crée <br> <br>";
+        Groupe::create(['numeroG' => $i, 'Salles_id' => NULL]);
+    }else{/*echo "Je passe  <br> <br>";*/}
 }
 
-// update `inscrits` set `Groupes_id` = {"id":17,"numeroG":3,"Salles_id":null,"created_at":"2022-10-25T15:59:55.000000Z","updated_at":"2022-10-25T15:59:55.000000Z"}, `inscrits`.`updated_at` = 2022-10-25 15:59:55 where `id` = 24
-// dd('OK');
+
+
+/* Repartition*/
+$cptPG = 0;
+$nbGr = 1; /*Compteur de groupe*/
+$GExist = Groupe::where('numeroG','=',1)->first(); /*Les premiers sont dans groupe 1*/
+foreach ($LiesteEtuInscrit as  $inscrit) {
+    $cptPG++;
+    if (($cptPG-1) == $request->nbGroupe) {
+        $cptPG=1;
+        $nbGr++;
+        $GExist = Groupe::where('numeroG','=',$nbGr)->first();
+    }
+
+    $inscrit->update([
+        'Groupes_id' => $GExist->id
+    ]);
+        // echo "OK OK Groupe:".$nbGr."<br><br>";
+}
+
+
+// dd($nombreGroupe);
+
 
         $message = "La magie s'est opérée avec succsès!";
         if (!isset($_SESSION)) { session_start(); }
