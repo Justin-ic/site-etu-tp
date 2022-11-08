@@ -57,8 +57,11 @@
 
   <?php if (isset($_SESSION['Etudiant'])): ?>
       <a href="{{route('connexion')}}" title="Je me déconnecte">
-        <span class="fas fa-power-off btnDeconnect"></span>
-        <span class="d-flex justify-content-start profil_header"><b><?=$_SESSION['Etudiant']->Nom?> <?=$_SESSION['Etudiant']->Prenom[0]?></b></span>
+        <span class="d-flex justify-content-start profil_header  fas fa-power-off btnDeconnect">
+          <span class=" textBtnDeconnect"> 
+          <b><?=$_SESSION['Etudiant']->Nom?> <?=$_SESSION['Etudiant']->Prenom[0]?></b>
+          </span>
+        </span>
       </a>
   <?php endif ?>
 </div>

@@ -394,15 +394,18 @@ th, td{
 
 
 @media screen and (max-width: 550px) {
+/*    body{
+        background-color: red;
+    }*/
   .img_carousel{
-    height: 300px;
-    width: 1300px;
+    height: 200px;
+    width: 865px;
   }
 }
 
 
-
-
+1990 -> 690
+        300
 /*
 <script type="text/javascript">
     $(document).ready(function(){
