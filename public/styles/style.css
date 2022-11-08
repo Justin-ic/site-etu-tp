@@ -394,11 +394,9 @@ th, td{
 
 
 @media screen and (max-width: 550px) {
-  body {
-    background-color: red;
-  }
   .img_carousel{
     height: 300px;
+    width: 1300px;
   }
 }
 
