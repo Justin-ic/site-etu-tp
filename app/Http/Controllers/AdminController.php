@@ -508,9 +508,10 @@ Je parcours la liste des inscrit où le id Niveau et id TP figure, pour chaque g
                                     ->where('AnneeUnivs_id','=',$anneActive->id)->first();
             if ($inscritSanGroupe != NULL) {
             $configNonTerminer = "Configuration mal faite: 
-            Il esxiste des étudiants inscrits qui n'ont pas de groupe !";
+            Il esxiste des étudiants inscrits dans ce TP qui n'ont pas de groupe !";
             return view('configurationEnCours',compact('configNonTerminer'));
         }
+
 
 
 
@@ -548,6 +549,7 @@ foreach ($donnees as  $LaDonne) {
     $i++;
     foreach ($LaDonne as  $contenu) {
         // echo 'id: '.$contenu->etudiant->id.' '.$contenu->etudiant->Nom.' '.$contenu->etudiant->Prenom.' Groupe '.$contenu->groupe->numeroG.'<br>';
+        dd($contenu->groupe);
         $infoGroupe[$i] = array('id' =>$contenu->groupe->id, 
                                   'numeroG' =>$contenu->groupe->numeroG,
                                   'LibelleSalle' =>$contenu->groupe->salle->LibelleSalle
