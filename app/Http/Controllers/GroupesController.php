@@ -21,6 +21,16 @@ class GroupesController extends Controller
      */
     public function index()
     {
+        $testAnne = AnneeUniv::first();
+        $testGroupe = Groupe::first();
+        $testSalle = Salle::first();
+        $testNiveau = Niveau::first();
+        $testTp = Tp::first();
+        $testlatest = latest::first();
+        if ($testAnne == NULL || $testGroupe == NULL || $testSalle == NULL || $testNiveau == NULL || $testTp == NULL || $testlatest == NULL || ) {
+            return back()->withErrors(["ExistGroupe" =>"Désolé vous devez suivre les étapes indiquées !"]);
+        }
+
         $anneActive = AnneeUniv::where('etat','=','Active')->first();
         $Liste_groupe = Groupe::with('salle')->orderBy('numeroG','ASC')->Paginate(5);
         $Liste_Salle = Salle::latest()->get();
