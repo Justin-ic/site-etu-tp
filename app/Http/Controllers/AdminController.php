@@ -549,7 +549,7 @@ foreach ($donnees as  $LaDonne) {
     $i++;
     foreach ($LaDonne as  $contenu) {
         // echo 'id: '.$contenu->etudiant->id.' '.$contenu->etudiant->Nom.' '.$contenu->etudiant->Prenom.' Groupe '.$contenu->groupe->numeroG.'<br>';
-        dd($contenu->groupe);
+        // dd($contenu->groupe->salle->LibelleSalle);
         $infoGroupe[$i] = array('id' =>$contenu->groupe->id, 
                                   'numeroG' =>$contenu->groupe->numeroG,
                                   'LibelleSalle' =>$contenu->groupe->salle->LibelleSalle
