@@ -61,6 +61,7 @@ Route::post('config/tabledit_Tps', [TPsController::class,'action'])->name('table
 Route::post('config/tabledit_Salle', [SallesController::class,'action'])->name('tabledit_Salle'); 
 Route::post('config/tabledit_Groupe', [GroupesController::class,'action'])->name('tabledit_Groupe'); 
 Route::post('config/tabledit_Notes', [NotesController::class,'action'])->name('tabledit_Notes'); 
+Route::post('config/tabledit_Presence', [AdminController::class,'actionPresence'])->name('tabledit_Presence'); 
 
 
 /***********************Gestion des tableaux éditables*****************************/
@@ -167,6 +168,9 @@ Route::get('sortiTP/{idTP}', [InscritsController::class,'sortiTP'])->name('sorti
 Route::resource('configEval', NotesController::class); 
 Route::post('evaluation', [NotesController::class,'evaluation'])->name('evaluation'); 
 Route::post('afficheNotes', [NotesController::class,'afficheNotes'])->name('afficheNotes'); 
+Route::post('afficheListePresence', [AdminController::class,'afficheListePresence'])->name('afficheListePresence'); 
+Route::post('savePresence', [AdminController::class,'savePresence'])->name('savePresence'); 
+
 
 
 
@@ -196,8 +200,15 @@ DB_DATABASE=d7i8keapc7fcia
 
 
 
+JESUS25Boko
+bokoemmanuel92@gmail
+ye:
 
 
 
+
+je vais afficher la liste des présences : pour chaque étudiant du groupe, j'affiche son nombre d'absence et un boution détaille pour afficher les datte à les quelles il a été absent..
+
+shell:startup
 
 */

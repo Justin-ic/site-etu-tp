@@ -11,7 +11,7 @@ class Note extends Model
 
 
     public function inscrit() {
-        return $this->belongsTo(Inscrit::class,'Inscrits_id'); // Relation One to Many: niveau est le fils et filière le père
+        return $this->belongsTo(Inscrit::class,'Inscrits_id'); // Relation One to Many: note est le fils et inscrit le père
     } 
 
     protected $fillable = ['Inscrits_id', 'Note'];

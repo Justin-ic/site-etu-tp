@@ -71,14 +71,27 @@
                       </a>
                     </div>
 
-                    <div class="col-lg-4 a2 a_accueil sectionChild" >
-                    <a href="#mes_notes" class="a_white" type="button">
-                        <div class="features-icons-item mx-auto mb-0 mb-lg-0 mb-lg-3">
+                    <?php if (isset($_SESSION['Admin'])): ?>  
+                      <div class="col-lg-4 a2 a_accueil sectionChild" >
+                        <a href="#mes_notes" class="a_white" type="button">
+                          <div class="features-icons-item mx-auto mb-0 mb-lg-0 mb-lg-3">
+                            <h3 class="fs-2 fw-bold">Evaluation</h3>
+                            <p class="lead mb-0 fs-3">Vous serez rediriger vers votre espace de configuration.</p>
+                          </div>
+                        </a>
+                      </div>
+                    <?php else: ?>
+                      <div class="col-lg-4 a2 a_accueil sectionChild" >
+                        <a href="#mes_notes" class="a_white" type="button">
+                          <div class="features-icons-item mx-auto mb-0 mb-lg-0 mb-lg-3">
                             <h3 class="fs-2 fw-bold">Mes notes</h3>
                             <p class="lead mb-0 fs-3">Voir mes notes et mon assiduité</p>
-                        </div>
-                    </a>
-                    </div>
+                          </div>
+                        </a>
+                      </div>
+                    <?php endif ?>
+
+                    
 
                     <div class="col-lg-4 a3 a_accueil sectionChild">
                       <a href="{{route('monProf')}}" class="a_white" type="button">

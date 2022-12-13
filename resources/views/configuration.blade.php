@@ -74,7 +74,7 @@
            @if (session('status')) 
            <div id="ul_alert_error" class=" col-12 col-md-8 d-flex justify-content-center ">
                 <div class="MCenter h1_alert alert alert-danger">
-                 {{session('status')}}
+                 {!!session('status')!!}
                  <script type="text/javascript">setTimeout(function() {
                  document.getElementById('ul_alert_error').innerHTML = "";},10000);</script>
                 </div>
@@ -85,7 +85,7 @@
                 <div class="alert alert-danger d-flex align-items-center">
                     <ul id="ul_alert">
                       @foreach ($errors->all() as $error)
-                      <li>{{$error}}</li>
+                      <li>{!!$error!!}</li>
                       <script type="text/javascript">setTimeout(function() {
                       document.getElementById('ul_alert_error').innerHTML = "";},10000);</script>
                       @endforeach
@@ -129,7 +129,7 @@
                                 <th>Nb Etudiant</th>
                                 <th>Nb Groupe</th>
                                 <th>Nb/Groupe</th>
-                                <th colspan="3">Action</th>
+                                <th colspan="4">Action</th>
                             </tr>
                         </thead>
   
@@ -163,11 +163,26 @@
                                                 </button>
                                             </a>
                                         </td>
+
+                                        <td class="MCenter">
+                                            <a class="confid_axxxx">
+                                                <button class="btn btn-success config_detail_button disabled ">
+                                                    Présence
+                                                </button>
+                                            </a>
+                                        </td>
                                       <?php else: ?>
                                         <td class="MCenter">
                                             <a href="{{route('configDetailG',[$idNiveau,$idTP])}}" class="confid_axxxx">
                                                 <button class="btn btn-primary config_detail_button">
                                                     Détails
+                                                </button>
+                                            </a>
+                                        </td>
+                                        <td class="MCenter">
+                                            <a class="confid_axxxx">
+                                                <button class="btn btn-success config_detail_button" data-bs-toggle="modal" data-bs-target="#listePresence" data-bs-whatever='<?=json_encode($data)?>'>
+                                                    Présence
                                                 </button>
                                             </a>
                                         </td>
@@ -216,7 +231,7 @@
                             <th>Nb Etudiant</th>
                             <th>Nb Groupe</th>
                             <th>Nb/Groupe</th>
-                            <th colspan="3">Action</th>
+                            <th colspan="4">Action</th>
                         </tfoot>
                     </table>
                 </div>
@@ -342,6 +357,59 @@
 
 
 
+<!-- Modal affiche la liste pour faire la présence    Modal avec reception de données -->
+<div class="modal fade" id="listePresence" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Afficher la liste de pérsence de:</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+    <form action="{{route('afficheListePresence')}}" method="POST">
+        @csrf
+        <div class="modal-body">
+            <div class="mb-3">
+                <label class="col-form-label"><b>Niveau:</b></label>
+                <input type="text" class="form-control" disabled required readonly id="niveau_Presence">
+                <input type="hidden" id="idNiveau_Presence"  name="idNiveau_Presence">
+            </div>
+            <div class="mb-3">
+                <label class="col-form-label"><b>TP:</b></label>
+                <input type="text" class="form-control" disabled required readonly id="TpLibelle_Presence">
+                <input type="hidden" id="tpId_Presence" name="tpId_Presence" >
+            </div>
+
+            <div class="form-group">
+                <b>Groupe:</b>
+                <select class="form-control  " id="Num_G_Presence" required name="Num_G_Presence" id="modale_etat_anne" >
+                    <option value="" >--Choisir--</option>
+                    
+                </select>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Démmarer</button>
+        </div>
+    </form>
+  </div>
+ </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <script type="text/javascript">
     
@@ -402,6 +470,37 @@ exampleModalNotes.addEventListener('show.bs.modal', event => {
     document.getElementById('TpLibelle_Notes').value = data.TpLibelle;
     document.getElementById('idNiveau_Notes').value = data.idNiveau;
     document.getElementById('tpId_Notes').value = data.tpId;
+
+})
+
+
+
+
+const exampleModalPresence = document.getElementById('listePresence')
+exampleModalPresence.addEventListener('show.bs.modal', event => {
+  // Button that triggered the modal
+  var button = event.relatedTarget
+  // Extract info from data-bs-* attributes
+  var data = button.getAttribute('data-bs-whatever')
+  // If necessary, you could initiate an AJAX request here
+  // and then do the updating in a callback.
+  //
+  // Update the modal's content.
+    console.log(data);
+    data = JSON.parse(data);
+  console.log(data);
+ /* console.log(' idNiveau='+data.idNiveau+' niveau='+data.niveau+' tpId='+data.tpId+' TpLibelle='+data.TpLibelle+' NbG='+data.NbG);*/
+
+  document.getElementById('Num_G_Presence').innerHTML = "";
+    var i;
+    for (i = 1; i <= data.NbG; i++) {
+        var leSellect = document.getElementById('Num_G_Presence');
+        leSellect.options[leSellect.options.length]= new Option('Groupe '+i,i);
+    }
+    document.getElementById('niveau_Presence').value = data.niveau;
+    document.getElementById('TpLibelle_Presence').value = data.TpLibelle;
+    document.getElementById('idNiveau_Presence').value = data.idNiveau;
+    document.getElementById('tpId_Presence').value = data.tpId;
 
 })
 

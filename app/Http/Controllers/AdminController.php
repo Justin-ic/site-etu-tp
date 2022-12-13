@@ -12,6 +12,7 @@ use App\Models\Salle;
 use App\Models\Niveau;
 use App\Models\Tp;
 use App\Models\Filiere;
+use App\Models\presence;
 
 class AdminController extends Controller
 {
@@ -582,6 +583,89 @@ foreach ($donnees as  $LaDonne) {
 
 
 
+
+
+
+
+
+
+
+    /**
+     * 
+     * Affiche la liste des étudiants du groupe pour faire la prsence
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function afficheListePresence(Request $request)
+    {
+        request()->validate([
+            'idNiveau_Presence' => ['required','numeric'], 
+            'tpId_Presence' => 'required|numeric',
+            'Num_G_Presence' => 'required|numeric'
+        ]);
+        if (!isset($_SESSION)) { session_start(); }
+
+        if (!isset($_SESSION['Admin'])) {
+            $message = "Connectez-vous d'abord en tant que admin s'il vous plait !";
+            return view('note_found', compact('message'));
+        }
+
+
+
+        $idGroupe = Groupe::where('numeroG','=',$request->Num_G_Presence)->first();
+        $anneActive = AnneeUniv::where('etat','=','Active')->first();
+
+        $ListeEtuInscrit = Inscrit::with('etudiant')
+                     ->with('niveau' , function($query) {
+                            $query->with('filiere');
+                        })
+                    ->with('Tp')
+                    ->with('presences')
+                    ->with('groupe' , function($query) {
+                            $query->with('salle');
+                        })
+                    ->where('AnneeUnivs_id','=',$anneActive->id)
+                    ->where('Niveaus_id','=',$request->idNiveau_Presence)
+                    ->where('TPs_id','=',$request->tpId_Presence)
+                    ->where('Groupes_id','=',$idGroupe->id)->get();
+
+// dd($ListeEtuInscrit);
+// dd($ListeEtuInscrit[0]->presences->count());
+        // Contrôle: on ne va pas faire la présence deux fois le même jour.
+        // Si on a déjà fait l'évaluation alors une a ete créer pour touts les inscrits du groupe.
+        $unEtuIncritDuGroupe = $ListeEtuInscrit[0];
+        $dd = date("Y-m-d"); 
+        $dejaPresence = presence::where('Inscrits_id', '=', $unEtuIncritDuGroupe->id)
+        ->where('created_at', '>', $dd.' 00:00:00')->first();
+
+        if ($dejaPresence) {
+            // Si l'appel est déjà fait, on continu sur l'historique des presences
+            
+
+            $LeNiveau = Niveau::with('filiere')->find($request->idNiveau_Presence);
+            $LeTP = Tp::find($request->tpId_Presence);
+            $LeGroupe = Groupe::find($idGroupe->id);
+
+            return view('configListePresence',compact('ListeEtuInscrit','LeNiveau' ,'LeTP' ,'LeGroupe' )); 
+
+            /*return back()->withErrors(["Erreur_Connect" =>"Appel déjà éfectué pour ce groupe aujourd'hui ! <br>Rende-vous sur la liste des présence pour une éventuelle modification."]);*/
+        }
+
+/*echo " request->Num_G_Notes=".$idGroupe->id." request->tpId_Notes=".$request->tpId_Notes." request->idNiveau_Notes=".$request->idNiveau_Notes;
+dd($unEtuDuGroupe);*/
+
+
+// dd($ListeEtuInscrit[0]);
+        return view('formulaires.form_appel',compact("anneActive","ListeEtuInscrit"));
+
+    }
+
+
+
+
+
+
+
     /**
      * Gestion des profils
      *
@@ -616,6 +700,77 @@ foreach ($donnees as  $LaDonne) {
     }
 
 
+
+
+
+
+
+
+
+    /**
+     * Sauvegarde des presence
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function savePresence(Request $request)
+    {
+        // dd("OK OK");
+
+        if (!isset($_SESSION)) { session_start(); }
+
+        if (!isset($_SESSION['Admin'])) {
+            $message = "Connectez-vous d'abord en tant que admin s'il vous plait !";
+            return view('note_found', compact('message'));
+        }
+
+        request()->validate([
+            'etat' => ['required'],
+            'idNiveau' => ['required','numeric'], 
+            'tpId' => 'required|numeric',
+            'G_id' => 'required|numeric'
+        ]);
+        
+
+        $anneActive = AnneeUniv::where('etat','=','Active')->first();
+
+        $ListeEtuInscrit = Inscrit::with('etudiant')
+                     ->with('niveau' , function($query) {
+                            $query->with('filiere');
+                        })
+                    ->with('Tp')
+                    ->with('groupe' , function($query) {
+                            $query->with('salle');
+                        })
+                    ->where('AnneeUnivs_id','=',$anneActive->id)
+                    ->where('Niveaus_id','=',$request->idNiveau)
+                    ->where('TPs_id','=',$request->tpId)
+                    ->where('Groupes_id','=',$request->G_id)->get();
+
+
+
+
+        foreach ($ListeEtuInscrit as $inscrit) {
+            if (in_array($inscrit->id, $request->etat)) {
+                echo "OK ".$inscrit->id." == ";
+                echo $inscrit->etudiant->Prenom.'<br>';
+
+                presence::create([
+                'Inscrits_id' => $inscrit->id,
+                'etat' => 1
+                ]);
+            }else{
+                presence::create([
+                'Inscrits_id' => $inscrit->id,
+                'etat' => 0
+                ]);
+            }
+        }
+
+        return redirect()->route('config.index');
+    }
+
+
+
 /*
 
 pour la même année et pour un niveau donné, si elle a des note, elle ne peut plus changer de niveau ni de TP
@@ -632,7 +787,124 @@ si tu as au moins une note dans l'année en cours dans le TP donnée, tu ne peut
 
 
 
-}
+
+
+
+
+
+
+
+    /**
+     * Modifie la liste de présence s'il y a eu une erreur.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function actionPresence(Request $request)
+    {           
+    // return response()->json($request);
+        if($request->ajax())
+        {
+            if($request->action == 'edit')
+            {
+
+                /*Transformation du request en tableau index numérique*/
+                $requestTable = array(); 
+                $cpt =0;
+                foreach ($request->all() as $key => $etatAppel) {
+                    if (strpos($key, "appel_") !== false) { /*Je crée une nouvelle ligne dans Note*/
+                        if ($etatAppel != NULL) {
+                            if (!is_numeric($etatAppel)) {
+                                $noteIncorrecte = ["noteIncorrecte" =>"Il y a des appels qui contiennent des caractères ! Actualisez et reprennez s'il vous plaît !"];
+                                return response()->json($noteIncorrecte);
+                            }else if($etatAppel != 0 && $etatAppel != 1){
+                                $noteIncorrecte = ["noteIncorrecte" =>"L'etat doit être 1 et etat absent doit être 0 ! Actualisez et reprennez s'il vous plaît !"];
+                                return response()->json($noteIncorrecte);
+                            }else{
+                                $requestTable[$cpt++] = intval($etatAppel);
+                            }
+                        }
+                        
+                    }
+                }
+
+                // dd($requestTable);
+
+                $lesPresences = presence::where('Inscrits_id','=',$request->id)->get();
+                $cpt =0;
+                foreach ($lesPresences as  $present) {
+
+                            $data = array(
+                                'etat'    =>  $requestTable[$cpt++]
+                            );
+
+                            $present->update($data);
+                }
+                            // dd($lesPresences);
+
+
+
+
+            } /* Fin if edite*/
+
+            if($request->action == 'delete')
+            {
+                $lesPresents = presence::where('Inscrits_id','=',$request->id)->get();
+                foreach ($lesPresents as  $present) {
+                    $present->delete();
+                }
+            }
+
+            return response()->json($request);
+        }/*Fin ajax*/
+
+    } /*Fin public function actionPresence*/
+
+
+
+
+
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function test2(Request $request)
+    {
+        
+        return view('test2');
+    }
+
+
+
+
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function test3(Request $request)
+    {
+        
+        return view('test3');
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+}/*public class*/
 
 
 /*

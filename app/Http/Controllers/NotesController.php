@@ -280,7 +280,7 @@ class NotesController extends Controller
         ->where('created_at', '>', $dd.' 00:00:00')
         ->first();
         if ($dejaNote != NULL) {
-            return redirect()->route('config.index')->with("status","Il semble que ce groupe à déjà été noté aujourd'hui. Rendez-vous dans la liste des notes pour la modification manuelle");
+            return redirect()->route('config.index')->with("status","Il semble que ce groupe à déjà été noté aujourd'hui. <br>Rendez-vous sur la liste des notes pour la modification manuelle.");
         }
 
 
@@ -346,8 +346,14 @@ class NotesController extends Controller
 /*echo " request->Num_G_Notes=".$idGroupe->id." request->tpId_Notes=".$request->tpId_Notes." request->idNiveau_Notes=".$request->idNiveau_Notes;
 dd($unEtuDuGroupe);*/
 
-        $dd = date("Y-m-d"); 
+        /*Je veus savoir si ce groupe a une fois été noté. 
+        pour ce faire, je prens un inscrit, je vérifie s'il est dans la table note.
+        Simple car un inscrit est en fonction de l'année
+        */
+        // $dd = date("Y-m-d"); 
+        // ->where('created_at', '>', $dd.' 00:00:00')
         $dejaNote = Note::where('Inscrits_id', '=', $unEtuDuGroupe->id)->first();
+
         if ($dejaNote == NULL) {
             return redirect()->route('config.index')->with("status","Désolé, ce groupe n'a pas encore été noté cette année !");
         }
@@ -359,9 +365,6 @@ dd($unEtuDuGroupe);*/
         return redirect()->route('configEval.index');
 
     }
-
-
-
 
 
 

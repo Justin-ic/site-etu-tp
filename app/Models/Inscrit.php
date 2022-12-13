@@ -50,6 +50,11 @@ class Inscrit extends Model
         return $this->hasMany(Note::class,'Inscrits_id'); // Relation One to Many: inscrit est le père
     } 
     
+
+    public function presences(){ // Relation One to Many: Presence est le fils. Un inscrit a plusieurs présence mais une présence, c'est pour un seul inscrit
+        return $this->hasMany(presence::class,'Inscrits_id');
+    }
+
     protected $fillable = ['Etudiants_id', 'AnneeUnivs_id', 'Niveaus_id', 'TPs_id', 'Groupes_id'];
     
 }
